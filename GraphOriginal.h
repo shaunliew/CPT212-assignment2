@@ -9,7 +9,7 @@ class Graph
 {
     int V;
     vector <pair<int, int> >* adj1;
-    vector <pair<int, int> >* transpose;
+    vector <pair<int, int> >* transpose; // for checking strongly connected components function
     bool isCyclicUtil(vector<pair<int, int> > adj1[], int v, bool visited[], bool* rs);
 public:
     Graph(int V);
@@ -22,11 +22,10 @@ public:
     void clear(vector<pair<int, int> > adj1[], int V);
 };
 
-Graph::Graph(int V)
+Graph::Graph(int v)
 {
-    this->V = V;
+    this->V = v;
     adj1 = new vector< pair<int, int> >;
-    //adj=new list<int>[V];
 }
 
 void Graph::addEdge(vector<pair<int, int> > adj1[], int v, int w, int wt)
@@ -138,3 +137,95 @@ void Graph::clear(vector<pair<int, int> > adj1[], int V)
 }
 
 #endif
+/*
+ srand(time(0));
+    Graph g(5);
+    vector<pair<int, int> > adj[5];
+    vector<pair<int, int> > transpose[5];
+    int weight[5][5] = {
+    {0,3383,3315,16659,6390},
+    {3383,0,1984,16579,5849},
+    {3315,1984,0,15010,3964},
+    {16659,16570,15010,0,11090},
+    {6390,5849,3964,11090,0} };
+    int option;
+
+    g.initialize(g, adj);
+    cout << "GRAPH HAS BEEN INITIALIZED..." << endl << endl;
+
+    do {
+        cout << "PRESS 1 TO PRINT GRAPH" << endl;
+        cout << "PRESS 2 TO ADD EDGES" << endl;
+        cout << "PRESS 3 TO REMOVE EDGES" << endl;
+        cout << "PRESS 4 TO CHECK IF GRAPH IS STRONGLY CONNECTED" << endl;
+        cout << "PRESS 5 TO DETECT CYCLE IN GRAPH" << endl;
+        cout << "PRESS 6 TO FIND SHORTEST PATH BETWEEN 2 VERTEX" << endl;
+        cout << "PRESS 7 TO FIND MINIMUM SPANNING TREE" << endl;
+        cout << "PRESS 8 TO RESET TO DEFAULT GRAPH" << endl;
+        cout << "PRESS 9 TO EXIT" << endl << endl;
+        cin >> option; cin.ignore();
+
+        switch (option) {
+        case 1:
+            g.PrintGraph(adj, 5);
+            break;
+
+        case 2:
+            int v1, v2, wt;
+            cout << "0 - HELSINKI" << endl << "1 - CAIRO" << endl << "2 - TEHRAN" << endl << "3 - AUCKLAND" << endl << "4 - DHAKA" << endl;
+            cout << "ENTER VERTEX 1: "; cin >> v1; cin.ignore();
+            while (v1 > 5 || v1 < 0) {
+                cout << "PLEASE ENTER THE CORRECT CODE FOR THE COUNTRY!!!" << endl;
+                cout << "0 - HELSINKI" << endl << "1 - CAIRO" << endl << "2 - TEHRAN" << endl << "3 - AUCKLAND" << endl << "4 - DHAKA" << endl;
+                cin >> v1; cin.ignore();
+            }
+            cout << "ENTER VERTEX 2: "; cin >> v2; cin.ignore();
+            while (v2 > 5 || v2 < 0) {
+                cout << "PLEASE ENTER THE CORRECT CODE FOR THE COUNTRY!!!" << endl;
+                cout << "0 - HELSINKI" << endl << "1 - CAIRO" << endl << "2 - TEHRAN" << endl << "3 - AUCKLAND" << endl << "4 - DHAKA" << endl;
+                cin >> v1; cin.ignore();
+            }
+            wt = weight[v1][v2];
+            g.addEdge(adj, v1, v2, wt);
+
+        case 3:
+
+        case 4:
+
+
+        case 5:
+            if (g.isCyclic(adj))
+                cout << "CYCLE DETECTED" << endl;
+            else
+                cout << "NO CYCLE DETECTED" << endl << endl;
+            while (!g.isCyclic(adj)) {
+                g.randEdges(5, adj);
+                if (g.isCyclic(adj))
+                    cout << "CYCLE CREATED !!!" << endl;
+            }
+            g.PrintGraph(adj, 5);
+            cout << endl;
+            break;
+
+        case 6:
+
+
+        case 7:
+
+        case 8:
+            g.clear(adj, 5);
+            g.initialize(g, adj);
+            cout << "GRAPH HAS BEEN RESET TO DEFAULT \n";
+            cout << endl;
+            break;
+
+        case 9:
+            cout << "THANK YOU AND COME AGAIN" << endl;
+            break;
+
+        default:
+            cout << "INVALID CHOICE!!!" << endl << "PLEASE PRESS AGAIN. " << endl;
+        }
+    } while (option != 9);
+
+*/
