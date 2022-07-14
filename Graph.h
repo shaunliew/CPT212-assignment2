@@ -13,10 +13,11 @@ class Graph
 	vector <pair<int, int>>* transpose; // the transposed adjacency list pointer for validating strong connected components
 	//bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
 public:
-	Graph(int V); 
+	Graph(int v); 
 	void addEdge(int u, int v, int weight);
 	void initialize();
 	void PrintGraph(map<int,string> cityName);
+	int dijkstra(int start, int end);
 };
 
 
@@ -73,5 +74,50 @@ void Graph::PrintGraph(map<int,string> cityName)
 		}
 		cout << "\n\n";
 	}
+}
+
+int Graph::dijkstra(int start, int end) {
+	
+	vector<int> distance(V, INT_MAX); // initialise a vector with a size V with extremely large values as infinity
+	set<pair<int, int>> tracker; // keep track of visited notes, <position,distance>
+
+	// initialise the starting node
+	distance[start] = 0;
+	tracker.insert(make_pair(start, 0));
+
+	while (!tracker.empty()) {
+		auto it = tracker.begin();
+		int pos = it->first;
+		int cumulated_dist = it->second;
+		tracker.erase(it); // pop the initial one
+
+		// iterate over the neighbours of the node (BFS)
+		for (auto nbrNode : adj[pos]) {
+
+			// store values
+			int nbr_pos = nbrNode.first;
+			int current_edge = nbrNode.second;
+
+			// check distance and update distance, check in tracker set
+			if (cumulated_dist + current_edge < distance[nbr_pos]) {
+				
+				// check whether neighbour is in the set
+				auto found = tracker.find(make_pair(nbr_pos, distance[nbr_pos]));
+
+				// remove if neighbour already exist in the set
+				if (found != tracker.end()) {
+					tracker.erase(found);
+				}
+
+				// insert the updated values with the new distance
+				distance[nbr_pos] = cumulated_dist + current_edge;
+				tracker.insert(make_pair(nbr_pos, distance[nbr_pos]));
+			}
+		}
+
+	}
+
+	return distance[end];
+	
 }
 #endif

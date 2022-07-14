@@ -42,6 +42,8 @@ int main()
     cout << "The graph has been initialized\n";
 
     g.PrintGraph(citiesName);
+
+    cout << "\n\n" << "Shortest distance from 2 to 0 is " << g.dijkstra(2, 0) << endl;
     return 0;
 }
 
