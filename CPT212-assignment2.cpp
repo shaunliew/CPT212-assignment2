@@ -110,6 +110,9 @@ int main()
             g.minimumEdges(adj, transpose, 5);
             g.PrintGraph(citiesName);
             system("pause");
+        case 2:
+            //check whether the graph is strongly connected
+            system("pause");
             break;
        case 3:
             // detect cycle in the graph
