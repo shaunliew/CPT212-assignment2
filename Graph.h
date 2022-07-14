@@ -19,16 +19,23 @@ class Graph
 	};
 	vector <pair<int, int>>* adj; // the adjacency list pointer
 	vector <pair<int, int>>* transpose; // the transposed adjacency list pointer for validating strong connected components
-	//bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
+	bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
 public:
 	Graph(int v); 
 	void addEdge(int u, int v, int weight);
+	void addEdgeReversed(int u, int v, int weight);
 	void initialize();
+	void clear(int V);
 	void PrintGraph(map<int,string> cityName);
+	bool isCyclic(vector<pair<int, int> > adj1[]);
 	bool isAvailablePath(int start, int end);
 	void generateRandEdges();
 	bool isReachable(int start, int end);
 	void dijkstra(map<int, string> cityName);
+	void getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
+	bool isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
+	void DFS(vector<pair<int, int>> adj1[], int v, bool visited[]);
+	void minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
 };
 
 
@@ -41,6 +48,11 @@ Graph::Graph(int v)
 void Graph::addEdge(int u, int v, int weight)
 {
 	adj[u].push_back(make_pair(v, weight)); // for directed graph
+}
+
+void Graph::addEdgeReversed(int u, int v, int weight)
+{
+	transpose[u].push_back(make_pair(v, weight)); // for directed graph
 }
 
 void Graph::initialize()
@@ -62,6 +74,13 @@ void Graph::initialize()
 	addEdge(4, 0, 6390);
 }
 
+void Graph::clear(int V)
+{
+
+	for (int i = 0; i < V; i++)
+		adj[i].clear();
+}
+
 void Graph::PrintGraph(map<int,string> cityName)
 {
 	int v, w;
@@ -80,6 +99,48 @@ void Graph::PrintGraph(map<int,string> cityName)
 		}
 		cout << "\n\n";
 	}
+}
+
+
+bool Graph::isCyclicUtil(vector<pair<int, int> > adj1[], int v, bool visited[], bool* recStack)
+{
+	if (visited[v] == false)
+	{
+		// Mark the current node as visited and part of recursion stack
+		visited[v] = true;
+		recStack[v] = true;
+
+		// Recur for all the vertices adjacent to this vertex
+		vector<pair<int, int> >::iterator i;
+		for (i = adj[v].begin(); i != adj[v].end(); ++i)
+		{
+			if (!visited[(*i).first] && isCyclicUtil(adj1, (*i).first, visited, recStack))
+				return true;
+			else if (recStack[(*i).first])
+				return true;
+		}
+
+	}
+	recStack[v] = false;  // remove the vertex from recursion stack
+	return false;
+}
+
+// returns true if the graph contains a cycle
+bool Graph::isCyclic(vector<pair<int, int> > adj1[])
+{
+	bool* visited = new bool[V];
+	bool* recStack = new bool[V];
+	for (int i = 0; i < V; i++)
+	{
+		visited[i] = false;
+		recStack[i] = false;
+	}
+
+	for (int i = 0; i < V; i++)
+		if (isCyclicUtil(adj1, i, visited, recStack))
+			return true;
+
+	return false;
 }
 
 // returns true if the path is in the adjacency list, else returns false
@@ -107,6 +168,97 @@ void Graph::generateRandEdges() {
 
 	addEdge(rand_start, rand_end, weight[rand_start][rand_end]);
 	cout << "Edge between " << rand_start << " and " << rand_end << " is created" << endl << endl;
+}
+
+//This function is to get the transpose graph (Graph with edges reversed)
+void Graph::getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V) {
+	for (int v = 0; v < V; v++)
+	{
+		for (int j = 0; j < adj1->size(); j++)
+			addEdgeReversed(adj1[v][j].first, v, adj1[v][j].second);
+	}
+}
+
+//This function is to perfrom DFS starting from v
+void Graph::DFS(vector<pair<int, int>> adj1[], int v, bool visited[])
+{
+	// Mark the current node as visited and print it
+	visited[v] = true;
+
+	// Recur for all the vertices adjacent to this vertex
+	vector<pair<int, int> > ::iterator i;
+	for (i = adj1[v].begin(); i != adj1[v].end(); ++i)
+		if (!visited[(*i).first])
+			DFS(adj1, (*i).first, visited);
+}
+
+//This function is to calculate how many edges needed to make the graph strongly connected
+void Graph::minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V) 
+{
+	stack<int> inD, outD;
+	int inDSize, outDSize, min;
+	getTranspose(adj1, transpose, V);
+
+	for (int i = 0; i < V; i++) 
+	{
+		if (adj1[i].empty()) 
+		{
+			outD.push(i);
+		}
+
+		if (transpose[i].empty()) 
+		{
+			inD.push(i);
+		}
+	}
+	inDSize = inD.size();
+	outDSize = outD.size();
+	if (inDSize == outDSize)
+		min = inDSize;
+	else
+		min = (inDSize + outDSize + 1) / 2;
+	cout << "\nMinimum edes required to make graph strongly connected is " << min << "\n";
+}
+
+//This function is determining the connectivity and returns true if the graph is strongly connected
+bool Graph::isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V)
+{
+	//Step 1: Mark all the vertices as not visited (For first DFS)
+	bool visited[5]{};
+	for (int i = 0; i < V; i++)
+	{
+		visited[i] = false;
+	}
+
+	// Step 2: Do DFS traversal starting from first vertex.
+	DFS(adj1, 0, visited);
+	// If DFS traversal doesn’t visit all vertices, then return false.
+	for (int i = 0; i < V; i++) 
+	{
+		if (visited[i] == false)
+			return false;
+	}
+
+	// Step 3: Create a reversed graph
+	getTranspose(adj1, transpose, V);
+
+	// Step 4: Mark all the vertices as not visited (For second DFS)
+	for (int i = 0; i < V; i++) 
+	{
+		visited[i] = false;
+	}
+
+	// Step 5: Do DFS for reversed graph starting from first vertex.
+	// Staring Vertex must be same starting point of first DFS
+	DFS(transpose, 0, visited);
+	// If all vertices are not visited in second DFS, then
+	// return false
+	for (int i = 0; i < V; i++) 
+	{
+		if (visited[i] == false)
+			return false;
+	}
+	return true;
 }
 
 bool Graph::isReachable(int start, int end) {
@@ -222,17 +374,21 @@ void Graph::dijkstra(map<int, string> cityName) {
 					auto pos_remove = find(path.begin(), path.end(), nbr_pos);
 					path.erase(pos_remove);
 				}
+				else {
+					path.push_back(nbr_pos);
+				}
 
 				// insert the updated values with the new distance
 				distance[nbr_pos] = cumulated_dist + current_edge;
 				tracker.insert(make_pair(nbr_pos, distance[nbr_pos]));
-				path.push_back(nbr_pos);
 			}
 		}
 
 	}
 
 	// print out the shortest path
+	// need to trace back with shortest distance
+	// if the location have no more adjacent points, skip it
 	cout << "\nShortest path: ";
 	for (auto location : path) {
 		cout << cityName.at(location) << "\t";

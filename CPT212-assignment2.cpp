@@ -11,7 +11,8 @@ int main()
 {
     //initalize graph
     Graph g(5);
-
+    vector<pair<int, int>> adj[5];
+    vector<pair<int, int>> transpose[5];
     int weight[5][5] = 
     {
         {0,3383,3315,16659,6390},       //Depart: HE; Destination: HE,CA,TE,AU,DH
@@ -44,6 +45,9 @@ int main()
     cout << "The graph has been initialized\n";
     
     int option = 0;
+    bool SCCheck;
+    bool cycle;
+	
     do
     {
         system("cls");
@@ -79,14 +83,75 @@ int main()
             break;
         case 2:
             //check whether the graph is strongly connected
+            cout << "***************************************************************" << endl;
+            cout << "*           Function 1: Connectivity of Graph Detection       *" << endl;
+            cout << "***************************************************************" << endl;
+            SCCheck = g.isStronglyConnected(adj, transpose, 5);
+            if (g.isStronglyConnected(adj, transpose, 5) == true)
+                cout << "THE GRAPH IS STRONGLY CONNECTED" << endl;
+            else {
+                cout << "THE GRAPH IS NOT STRONGLY CONNECTED" << endl << endl;
+
+                while (SCCheck == false)
+                {
+                    g.generateRandEdges();
+                    cout << "\nModified Graph: " << endl;
+                    cout << "***************************************************************" << endl;
+                    g.PrintGraph(citiesName);
+                    cout << "***************************************************************" << endl;
+                    system("pause");
+                    SCCheck = g.isStronglyConnected(adj, transpose, 5);
+                    if (SCCheck == true)
+                        cout << "\n\nTHE GRAPH IS STRONGLY CONNECTED" << endl;
+                    else
+                        cout << "\n\nTHE GRAPH IS NOT STRONGLY CONNECTED" << endl;
+                }
+            }
+            g.minimumEdges(adj, transpose, 5);
+            g.PrintGraph(citiesName);
+            system("pause");
+        case 2:
+            //check whether the graph is strongly connected
             system("pause");
             break;
-        case 3:
-            //detect cycle in the graph
-            system("pause");
-            break;
+       case 3:
+            // detect cycle in the graph
+            // Cycle Detection Section
+            cout << "***************************************************************" << endl;
+            cout << "*                 Function 2: Cycle  Detection                *" << endl;
+            cout << "***************************************************************" << endl;
+            cycle = g.isCyclic(adj);
+
+            if (cycle == true)
+                cout << "CYCLE DETECTED" << endl;
+	        else {
+		        cout << "NO CYCLE DETECTED" << endl << endl;
+
+                while (cycle == false)
+                {
+                    g.generateRandEdges();
+                    cout << "Modified Graph: " << endl;
+                    cout << "***************************************************************" << endl;
+                    g.PrintGraph(citiesName);
+                    cout << "***************************************************************" << endl;
+                    cycle = g.isCyclic(adj);
+                    if (cycle == true)
+                        cout << "CYCLE DETECTED! " << endl << endl;
+                    else
+                        cout << "NO CYCLE DETECTED." << endl << endl;
+                }
+            }
+	        system("pause");
+	        break;
         case 4:
             //find the shortest path between 2 vertex in the graph
+            // Shortest Path Section
+            cout << "***************************************************************" << endl;
+            cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
+            cout << "***************************************************************" << endl;
+            g.dijkstra(citiesName);
+            cout << "\n\nLatest graph is as follows: " << endl;
+            g.PrintGraph(citiesName);
             // Shortest Path Section
             cout << "***************************************************************" << endl;
             cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
@@ -102,10 +167,56 @@ int main()
             break;
         case 6:
             // reset to default graph
+	    g.clear(5);
+            g.initialize();
+            cout << "GRAPH HAS BEEN RESET TO DEFAULT \n";
+            cout << endl;
             system("pause");
             break;
         case 7:
             //add new edges to the graph
+            int v1, v2, wt;
+            cout << "***************************************************************" << endl;
+            cout << "*                      Add New Edges                          *" << endl;
+            cout << "***************************************************************" << endl  << endl;
+            cout << "0: HE -> Helsinki, Finland \n";
+            cout << "1: CA -> Cairo, Egypt \n";
+            cout << "2: TE -> Tehran, Iran\n";
+            cout << "3: AU -> Auckland, New Zealand \n";
+            cout << "4: DH -> Dhaka, Bangladesh \n";
+            cout << "Select the first Vertex: ";
+            cin >> v1; cin.ignore();
+
+            while (v1 > 4 || v1 < 0) {
+                cout << "\n\nPlease select the correct country code!" << endl;
+                cout << "0: HE -> Helsinki, Finland \n";
+                cout << "1: CA -> Cairo, Egypt \n";
+                cout << "2: TE -> Tehran, Iran\n";
+                cout << "3: AU -> Auckland, New Zealand \n";
+                cout << "4: DH -> Dhaka, Bangladesh \n";
+                cin >> v1; cin.ignore();
+            }
+
+            cout << "\n0: HE -> Helsinki, Finland \n";
+            cout << "1: CA -> Cairo, Egypt \n";
+            cout << "2: TE -> Tehran, Iran\n";
+            cout << "3: AU -> Auckland, New Zealand \n";
+            cout << "4: DH -> Dhaka, Bangladesh \n";
+            cout << "Select the second Vertex: ";
+            cin >> v2; cin.ignore();
+
+            while (v2 > 4 || v2 < 0) {
+                cout << "Please select the correct country code!" << endl;
+                cout << "0: HE -> Helsinki, Finland \n";
+                cout << "1: CA -> Cairo, Egypt \n";
+                cout << "2: TE -> Tehran, Iran\n";
+                cout << "3: AU -> Auckland, New Zealand \n";
+                cout << "4: DH -> Dhaka, Bangladesh \n";
+                cin >> v2; cin.ignore();
+            }
+
+            wt = weight[v1][v2];
+            g.addEdge(v1, v2, wt);
             system("pause");
             break;
         case 8:
