@@ -9,7 +9,10 @@ using namespace std;
 
 int main()
 {
-    //TODO: find out what city is corresponding to this weight
+    //initalize graph
+    Graph g(5);
+    vector<pair<int, int> > adj[5];
+    vector<pair<int, int> > transpose[5];
     int weight[5][5] = 
     {
         {0,3383,3315,16659,6390},       //Depart: HE; Destination: HE,CA,TE,AU,DH
@@ -19,16 +22,28 @@ int main()
         {6390,5849,3964,11090,0}        //Depart: DH; Destination: HE,CA,TE,AU,DH
     };
 
-    vector<string> cities = { "Helsinki, Finland", "Cairo, Egypt", "Tehran, Iran", "Auckland, New Zealand", "Dhaka, Bangladesh" };
-    Graph g(cities);
-    //initialize according to the diagram , refer to CPT_212_CITY.png
-    // first agrument is the depart , second is destination, third arguement is the weight of the weight edges
-    g.addEdge("Cairo, Egypt", "Helsinki, Finland", 3383);
-    g.addEdge("Cairo, Egypt", "Tehran, Iran", 1984);
-    g.addEdge("Tehran, Iran", "Auckland, New Zealand", 15010);
-    g.addEdge("Auckland, New Zealand", "Dhaka, Bangladesh", 11090);
-    g.addEdge("Dhaka, Bangladesh", "Helsinki, Finland", 6390);
-    g.printAdjList();
+    // map declaration
+    map<int,string> citiesName;
+
+    // mapping integers to city name
+    /*
+    	HE,Helsinki, Finland is 0
+	    CA,Cairo, Egypt is 1
+	    TE,Tehran, Iran is 2
+	    AU, Auckland, New Zealand is 3
+	    DH,Dhaka, Bangladesh is 4
+    */
+    citiesName[0] = "HE";
+    citiesName[1] = "CA";
+    citiesName[2] = "TE";
+    citiesName[3] = "AU";
+    citiesName[4] = "DH";
+   
+
+    g.initialize(g, adj);
+    cout << "The graph has been initialized\n";
+
+    g.PrintGraph(adj, 5,citiesName);
     return 0;
 }
 
