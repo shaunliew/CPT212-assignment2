@@ -45,6 +45,7 @@ int main()
     cout << "The graph has been initialized\n";
     
     int option = 0;
+    bool SCCheck;
     bool cycle;
 	
     do
@@ -82,6 +83,32 @@ int main()
             break;
         case 2:
             //check whether the graph is strongly connected
+            cout << "***************************************************************" << endl;
+            cout << "*           Function 1: Connectivity of Graph Detection       *" << endl;
+            cout << "***************************************************************" << endl;
+            SCCheck = g.isStronglyConnected(adj, transpose, 5);
+            if (g.isStronglyConnected(adj, transpose, 5) == true)
+                cout << "THE GRAPH IS STRONGLY CONNECTED" << endl;
+            else {
+                cout << "THE GRAPH IS NOT STRONGLY CONNECTED" << endl << endl;
+
+                while (SCCheck == false)
+                {
+                    g.generateRandEdges();
+                    cout << "\nModified Graph: " << endl;
+                    cout << "***************************************************************" << endl;
+                    g.PrintGraph(citiesName);
+                    cout << "***************************************************************" << endl;
+                    system("pause");
+                    SCCheck = g.isStronglyConnected(adj, transpose, 5);
+                    if (SCCheck == true)
+                        cout << "\n\nTHE GRAPH IS STRONGLY CONNECTED" << endl;
+                    else
+                        cout << "\n\nTHE GRAPH IS NOT STRONGLY CONNECTED" << endl;
+                }
+            }
+            g.minimumEdges(adj, transpose, 5);
+            g.PrintGraph(citiesName);
             system("pause");
             break;
        case 3:
@@ -119,44 +146,20 @@ int main()
             cout << "***************************************************************" << endl;
             cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
             cout << "***************************************************************" << endl;
-
-    g.dijkstra(citiesName);
-    cout << "\n\nLatest graph is as follows: " << endl;
-    g.PrintGraph(citiesName);
-        case 2:
-            //check whether the graph is strongly connected
-            if (g.isStronglyConnected(adj, transpose, 5))
-                cout << "STRONGLY CONNECTED" << endl;
-            else
-                cout << "NOT STRONGLY CONNECTED" << endl << endl;
-
-            while (!g.isStronglyConnected(adj, transpose, 5)) 
-            {
-                g.generateRandEdges();
-                if (g.isStronglyConnected(adj, transpose, 5))
-                    cout << "GRAPH IS STRONGLY CONNECTED !!!" << endl;
-            }
-           
-            //g.minimumEdges(adj, transpose, 5);
+            g.dijkstra(citiesName);
+            cout << "\n\nLatest graph is as follows: " << endl;
             g.PrintGraph(citiesName);
-            cout << endl;
-            system("pause");
             break;
-        case 3:
-            //detect cycle in the graph
-            system("pause");
-            break;
-        /*case 4:
-            //find the shortest path between 2 vertex in the graph
-            cout << "\n\n" << "Shortest distance is "<< g.dijkstra() << endl;
-            system("pause");
-            break;*/
         case 5:
             //find the minimum spanning tree in the graph according to the vertex chosen
             system("pause");
             break;
         case 6:
             // reset to default graph
+            g.clear(5);
+            g.initialize();
+            cout << "GRAPH HAS BEEN RESET TO DEFAULT \n";
+            cout << endl;
             system("pause");
             break;
         case 7:

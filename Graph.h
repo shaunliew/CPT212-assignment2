@@ -25,6 +25,7 @@ public:
 	void addEdge(int u, int v, int weight);
 	void addEdgeReversed(int u, int v, int weight);
 	void initialize();
+	void clear(int V);
 	void PrintGraph(map<int,string> cityName);
 	bool isCyclic(vector<pair<int, int> > adj1[]);
 	bool isAvailablePath(int start, int end);
@@ -71,6 +72,13 @@ void Graph::initialize()
 	addEdge(2, 3, 15010);
 	addEdge(3, 4, 11090);
 	addEdge(4, 0, 6390);
+}
+
+void Graph::clear(int V)
+{
+
+	for (int i = 0; i < V; i++)
+		adj[i].clear();
 }
 
 void Graph::PrintGraph(map<int,string> cityName)
@@ -189,30 +197,26 @@ void Graph::minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> t
 {
 	stack<int> inD, outD;
 	int inDSize, outDSize, min;
-	//delete [] transpose;
 	getTranspose(adj1, transpose, V);
 
-	for (int i = 0; i < V; i++) {
-		if (adj1[i].empty()) {
-			//cout<<"out "<<i<<endl;
+	for (int i = 0; i < V; i++) 
+	{
+		if (adj1[i].empty()) 
+		{
 			outD.push(i);
 		}
 
-		if (transpose[i].empty()) {
-			//cout<<"in "<<i<<endl;
+		if (transpose[i].empty()) 
+		{
 			inD.push(i);
 		}
-
 	}
-
 	inDSize = inD.size();
 	outDSize = outD.size();
 	if (inDSize == outDSize)
 		min = inDSize;
-
 	else
 		min = (inDSize + outDSize + 1) / 2;
-
 	cout << "\nMinimum edes required to make graph strongly connected is " << min << "\n";
 }
 
