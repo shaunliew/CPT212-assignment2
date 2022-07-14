@@ -24,6 +24,7 @@ public:
 	Graph(int v); 
 	void addEdge(int u, int v, int weight);
 	void initialize();
+	void clear(int V);
 	void PrintGraph(map<int,string> cityName);
 	bool isCyclic(vector<pair<int, int> > adj1[]);
 	bool isAvailablePath(int start, int end);
@@ -61,6 +62,13 @@ void Graph::initialize()
 	addEdge(2, 3, 15010);
 	addEdge(3, 4, 11090);
 	addEdge(4, 0, 6390);
+}
+
+void Graph::clear(int V)
+{
+
+	for (int i = 0; i < V; i++)
+		adj[i].clear();
 }
 
 void Graph::PrintGraph(map<int,string> cityName)
