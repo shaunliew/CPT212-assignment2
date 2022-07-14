@@ -39,6 +39,7 @@ int main()
     citiesName[4] = "DH";
    
 
+
     g.initialize();
     cout << "The graph has been initialized\n";
     
@@ -77,6 +78,14 @@ int main()
             system("pause");
             break;
 
+    // Shortest Path Section
+    cout << "***************************************************************" << endl;
+    cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
+    cout << "***************************************************************" << endl;
+
+    g.dijkstra(citiesName);
+    cout << "\n\nLatest graph is as follows: " << endl;
+    g.PrintGraph(citiesName);
         case 2:
             //check whether the graph is strongly connected
             system("pause");
