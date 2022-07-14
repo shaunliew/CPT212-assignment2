@@ -152,13 +152,6 @@ int main()
             g.dijkstra(citiesName);
             cout << "\n\nLatest graph is as follows: " << endl;
             g.PrintGraph(citiesName);
-            // Shortest Path Section
-            cout << "***************************************************************" << endl;
-            cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
-            cout << "***************************************************************" << endl;
-            g.dijkstra(citiesName);
-            cout << "\n\nLatest graph is as follows: " << endl;
-            g.PrintGraph(citiesName);
             system("pause");
             break;
         case 5:
