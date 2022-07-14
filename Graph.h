@@ -17,7 +17,7 @@ public:
 	void addEdge(int u, int v, int weight);
 	void initialize();
 	void PrintGraph(map<int,string> cityName);
-	int dijkstra(int start, int end);
+	int dijkstra();
 };
 
 
@@ -76,10 +76,30 @@ void Graph::PrintGraph(map<int,string> cityName)
 	}
 }
 
-int Graph::dijkstra(int start, int end) {
+int Graph::dijkstra() {
 	
+	// initialise data structures and variables
 	vector<int> distance(V, INT_MAX); // initialise a vector with a size V with extremely large values as infinity
 	set<pair<int, int>> tracker; // keep track of visited notes, <position,distance>
+	int start = 0, end = 0;
+
+	// request for inputs
+	cout << "\nPlease enter your starting location: ";
+	cin >> start;
+	// since we only have 5 locations, hence only allow between 0 - 4
+	while (start < 0 || start > 4) {
+		cout << "Invalid input. Please key in values range in 0 to 4: ";
+		cin >> start;
+	}
+	cout << "Please enter your ending location: ";
+	cin >> end;
+	// only allow between 0 - 4 and must different location
+	while ((end < 0 || end >4) || start == end) {
+		cout << "Invalid input. Please key in values range in 0 to 4 and different from starting location: ";
+		cin >> end;
+	}
+
+	// check if reachable
 
 	// initialise the starting node
 	distance[start] = 0;

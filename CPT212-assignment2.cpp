@@ -43,7 +43,7 @@ int main()
 
     g.PrintGraph(citiesName);
 
-    cout << "\n\n" << "Shortest distance from 2 to 0 is " << g.dijkstra(2, 0) << endl;
+    cout << "\n\n" << "Shortest distance is " << g.dijkstra() << endl;
     return 0;
 }
 
