@@ -19,12 +19,13 @@ class Graph
 	};
 	vector <pair<int, int>>* adj; // the adjacency list pointer
 	vector <pair<int, int>>* transpose; // the transposed adjacency list pointer for validating strong connected components
-	//bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
+	bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
 public:
 	Graph(int v); 
 	void addEdge(int u, int v, int weight);
 	void initialize();
 	void PrintGraph(map<int,string> cityName);
+	bool isCyclic(vector<pair<int, int> > adj1[]);
 	bool isAvailablePath(int start, int end);
 	void generateRandEdges();
 	bool isReachable(int start, int end);
@@ -80,6 +81,48 @@ void Graph::PrintGraph(map<int,string> cityName)
 		}
 		cout << "\n\n";
 	}
+}
+
+
+bool Graph::isCyclicUtil(vector<pair<int, int> > adj1[], int v, bool visited[], bool* recStack)
+{
+	if (visited[v] == false)
+	{
+		// Mark the current node as visited and part of recursion stack
+		visited[v] = true;
+		recStack[v] = true;
+
+		// Recur for all the vertices adjacent to this vertex
+		vector<pair<int, int> >::iterator i;
+		for (i = adj[v].begin(); i != adj[v].end(); ++i)
+		{
+			if (!visited[(*i).first] && isCyclicUtil(adj1, (*i).first, visited, recStack))
+				return true;
+			else if (recStack[(*i).first])
+				return true;
+		}
+
+	}
+	recStack[v] = false;  // remove the vertex from recursion stack
+	return false;
+}
+
+// returns true if the graph contains a cycle
+bool Graph::isCyclic(vector<pair<int, int> > adj1[])
+{
+	bool* visited = new bool[V];
+	bool* recStack = new bool[V];
+	for (int i = 0; i < V; i++)
+	{
+		visited[i] = false;
+		recStack[i] = false;
+	}
+
+	for (int i = 0; i < V; i++)
+		if (isCyclicUtil(adj1, i, visited, recStack))
+			return true;
+
+	return false;
 }
 
 // returns true if the path is in the adjacency list, else returns false
