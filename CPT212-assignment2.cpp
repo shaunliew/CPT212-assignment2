@@ -12,11 +12,11 @@ int main()
     //TODO: find out what city is corresponding to this weight
     int weight[5][5] = 
     {
-        {0,3383,3315,16659,6390},
-        {3383,0,1984,16579,5849},
-        {3315,1984,0,15010,3964},
-        {16659,16570,15010,0,11090},
-        {6390,5849,3964,11090,0} 
+        {0,3383,3315,16659,6390},       //Depart: HE; Destination: HE,CA,TE,AU,DH
+        {3383,0,1984,16579,5849},       //Depart: CA; Destination: HE,CA,TE,AU,DH
+        {3315,1984,0,15010,3964},       //Depart: TE; Destination: HE,CA,TE,AU,DH
+        {16659,16570,15010,0,11090},    //Depart: AU; Destination: HE,CA,TE,AU,DH
+        {6390,5849,3964,11090,0}        //Depart: DH; Destination: HE,CA,TE,AU,DH
     };
 
     vector<string> cities = { "Helsinki, Finland", "Cairo, Egypt", "Tehran, Iran", "Auckland, New Zealand", "Dhaka, Bangladesh" };
