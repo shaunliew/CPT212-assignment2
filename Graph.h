@@ -222,17 +222,21 @@ void Graph::dijkstra(map<int, string> cityName) {
 					auto pos_remove = find(path.begin(), path.end(), nbr_pos);
 					path.erase(pos_remove);
 				}
+				else {
+					path.push_back(nbr_pos);
+				}
 
 				// insert the updated values with the new distance
 				distance[nbr_pos] = cumulated_dist + current_edge;
 				tracker.insert(make_pair(nbr_pos, distance[nbr_pos]));
-				path.push_back(nbr_pos);
 			}
 		}
 
 	}
 
 	// print out the shortest path
+	// need to trace back with shortest distance
+	// if the location have no more adjacent points, skip it
 	cout << "\nShortest path: ";
 	for (auto location : path) {
 		cout << cityName.at(location) << "\t";

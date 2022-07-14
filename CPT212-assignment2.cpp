@@ -77,15 +77,6 @@ int main()
             g.PrintGraph(citiesName);
             system("pause");
             break;
-
-    // Shortest Path Section
-    cout << "***************************************************************" << endl;
-    cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
-    cout << "***************************************************************" << endl;
-
-    g.dijkstra(citiesName);
-    cout << "\n\nLatest graph is as follows: " << endl;
-    g.PrintGraph(citiesName);
         case 2:
             //check whether the graph is strongly connected
             system("pause");
@@ -96,7 +87,14 @@ int main()
             break;
         case 4:
             //find the shortest path between 2 vertex in the graph
-            cout << "\n\n" << "Shortest distance is " << g.dijkstra() << endl;
+            // Shortest Path Section
+            cout << "***************************************************************" << endl;
+            cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
+            cout << "***************************************************************" << endl;
+
+            g.dijkstra(citiesName);
+            cout << "\n\nLatest graph is as follows: " << endl;
+            g.PrintGraph(citiesName);
             system("pause");
             break;
         case 5:
