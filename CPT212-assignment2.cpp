@@ -11,6 +11,7 @@ int main()
 {
     //initalize graph
     Graph g(5);
+    vector<pair<int, int> > adj[5];
 
     int weight[5][5] = 
     {
@@ -44,6 +45,8 @@ int main()
     cout << "The graph has been initialized\n";
     
     int option = 0;
+    bool cycle;
+	
     do
     {
         system("cls");
@@ -81,10 +84,35 @@ int main()
             //check whether the graph is strongly connected
             system("pause");
             break;
-        case 3:
-            //detect cycle in the graph
-            system("pause");
-            break;
+       case 3:
+            // detect cycle in the graph
+            // Cycle Detection Section
+            cout << "***************************************************************" << endl;
+            cout << "*                 Function 2: Cycle  Detection                *" << endl;
+            cout << "***************************************************************" << endl;
+            cycle = g.isCyclic(adj);
+
+            if (cycle == true)
+                cout << "CYCLE DETECTED" << endl;
+	        else {
+		        cout << "NO CYCLE DETECTED" << endl << endl;
+
+                while (cycle == false)
+                {
+                    g.generateRandEdges();
+                    cout << "Modified Graph: " << endl;
+                    cout << "***************************************************************" << endl;
+                    g.PrintGraph(citiesName);
+                    cout << "***************************************************************" << endl;
+                    cycle = g.isCyclic(adj);
+                    if (cycle == true)
+                        cout << "CYCLE DETECTED! " << endl << endl;
+                    else
+                        cout << "NO CYCLE DETECTED." << endl << endl;
+                }
+            }
+	        system("pause");
+	        break;
         case 4:
             //find the shortest path between 2 vertex in the graph
             // Shortest Path Section
