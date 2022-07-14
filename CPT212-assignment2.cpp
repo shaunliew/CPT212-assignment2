@@ -11,7 +11,8 @@ int main()
 {
     //initalize graph
     Graph g(5);
-
+    vector<pair<int, int>> adj[5];
+    vector<pair<int, int>> transpose[5];
     int weight[5][5] = 
     {
         {0,3383,3315,16659,6390},       //Depart: HE; Destination: HE,CA,TE,AU,DH
@@ -88,17 +89,32 @@ int main()
     g.PrintGraph(citiesName);
         case 2:
             //check whether the graph is strongly connected
+            if (g.isStronglyConnected(adj, transpose, 5))
+                cout << "STRONGLY CONNECTED" << endl;
+            else
+                cout << "NOT STRONGLY CONNECTED" << endl << endl;
+
+            while (!g.isStronglyConnected(adj, transpose, 5)) 
+            {
+                g.generateRandEdges();
+                if (g.isStronglyConnected(adj, transpose, 5))
+                    cout << "GRAPH IS STRONGLY CONNECTED !!!" << endl;
+            }
+           
+            //g.minimumEdges(adj, transpose, 5);
+            g.PrintGraph(citiesName);
+            cout << endl;
             system("pause");
             break;
         case 3:
             //detect cycle in the graph
             system("pause");
             break;
-        case 4:
+        /*case 4:
             //find the shortest path between 2 vertex in the graph
-            cout << "\n\n" << "Shortest distance is " << g.dijkstra() << endl;
+            cout << "\n\n" << "Shortest distance is "<< g.dijkstra() << endl;
             system("pause");
-            break;
+            break;*/
         case 5:
             //find the minimum spanning tree in the graph according to the vertex chosen
             system("pause");

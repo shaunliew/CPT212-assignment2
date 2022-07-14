@@ -23,12 +23,17 @@ class Graph
 public:
 	Graph(int v); 
 	void addEdge(int u, int v, int weight);
+	void addEdgeReversed(int u, int v, int weight);
 	void initialize();
 	void PrintGraph(map<int,string> cityName);
 	bool isAvailablePath(int start, int end);
 	void generateRandEdges();
 	bool isReachable(int start, int end);
 	void dijkstra(map<int, string> cityName);
+	void getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
+	bool isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
+	void DFS(vector<pair<int, int>> adj1[], int v, bool visited[]);
+	void minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
 };
 
 
@@ -41,6 +46,11 @@ Graph::Graph(int v)
 void Graph::addEdge(int u, int v, int weight)
 {
 	adj[u].push_back(make_pair(v, weight)); // for directed graph
+}
+
+void Graph::addEdgeReversed(int u, int v, int weight)
+{
+	transpose[u].push_back(make_pair(v, weight)); // for directed graph
 }
 
 void Graph::initialize()
@@ -107,6 +117,101 @@ void Graph::generateRandEdges() {
 
 	addEdge(rand_start, rand_end, weight[rand_start][rand_end]);
 	cout << "Edge between " << rand_start << " and " << rand_end << " is created" << endl << endl;
+}
+
+//This function is to get the transpose graph (Graph with edges reversed)
+void Graph::getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V) {
+	for (int v = 0; v < V; v++)
+	{
+		for (int j = 0; j < adj1->size(); j++)
+			addEdgeReversed(adj1[v][j].first, v, adj1[v][j].second);
+	}
+}
+
+//This function is to perfrom DFS starting from v
+void Graph::DFS(vector<pair<int, int>> adj1[], int v, bool visited[])
+{
+	// Mark the current node as visited and print it
+	visited[v] = true;
+
+	// Recur for all the vertices adjacent to this vertex
+	vector<pair<int, int> > ::iterator i;
+	for (i = adj1[v].begin(); i != adj1[v].end(); ++i)
+		if (!visited[(*i).first])
+			DFS(adj1, (*i).first, visited);
+}
+
+//This function is to calculate how many edges needed to make the graph strongly connected
+void Graph::minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V) 
+{
+	stack<int> inD, outD;
+	int inDSize, outDSize, min;
+	//delete [] transpose;
+	getTranspose(adj1, transpose, V);
+
+	for (int i = 0; i < V; i++) {
+		if (adj1[i].empty()) {
+			//cout<<"out "<<i<<endl;
+			outD.push(i);
+		}
+
+		if (transpose[i].empty()) {
+			//cout<<"in "<<i<<endl;
+			inD.push(i);
+		}
+
+	}
+
+	inDSize = inD.size();
+	outDSize = outD.size();
+	if (inDSize == outDSize)
+		min = inDSize;
+
+	else
+		min = (inDSize + outDSize + 1) / 2;
+
+	cout << "\nMinimum edes required to make graph strongly connected is " << min << "\n";
+}
+
+//This function is determining the connectivity and returns true if the graph is strongly connected
+bool Graph::isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V)
+{
+	//Step 1: Mark all the vertices as not visited (For first DFS)
+	bool visited[5]{};
+	for (int i = 0; i < V; i++)
+	{
+		visited[i] = false;
+	}
+
+	// Step 2: Do DFS traversal starting from first vertex.
+	DFS(adj1, 0, visited);
+	// If DFS traversal doesn’t visit all vertices, then return false.
+	for (int i = 0; i < V; i++) 
+	{
+		if (visited[i] == false)
+			return false;
+	}
+
+	// Step 3: Create a reversed graph
+	getTranspose(adj1, transpose, V);
+
+	// Step 4: Mark all the vertices as not visited (For second DFS)
+	for (int i = 0; i < V; i++) 
+	{
+		visited[i] = false;
+	}
+
+	// Step 5: Do DFS for reversed graph starting from first vertex.
+	// Staring Vertex must be same starting point of first DFS
+	DFS(transpose, 0, visited);
+	// If all vertices are not visited in second DFS, then
+	// return false
+	for (int i = 0; i < V; i++) 
+	{
+		if (visited[i] == false)
+			return false;
+	}
+	return true;
 }
 
 bool Graph::isReachable(int start, int end) {
