@@ -156,7 +156,7 @@ int main()
             break;
         case 6:
             // reset to default graph
-            g.clear(5);
+	    g.clear(5);
             g.initialize();
             cout << "GRAPH HAS BEEN RESET TO DEFAULT \n";
             cout << endl;
@@ -164,6 +164,48 @@ int main()
             break;
         case 7:
             //add new edges to the graph
+            int v1, v2, wt;
+            cout << "***************************************************************" << endl;
+            cout << "*                      Add New Edges                          *" << endl;
+            cout << "***************************************************************" << endl  << endl;
+            cout << "0: HE -> Helsinki, Finland \n";
+            cout << "1: CA -> Cairo, Egypt \n";
+            cout << "2: TE -> Tehran, Iran\n";
+            cout << "3: AU -> Auckland, New Zealand \n";
+            cout << "4: DH -> Dhaka, Bangladesh \n";
+            cout << "Select the first Vertex: ";
+            cin >> v1; cin.ignore();
+
+            while (v1 > 4 || v1 < 0) {
+                cout << "\n\nPlease select the correct country code!" << endl;
+                cout << "0: HE -> Helsinki, Finland \n";
+                cout << "1: CA -> Cairo, Egypt \n";
+                cout << "2: TE -> Tehran, Iran\n";
+                cout << "3: AU -> Auckland, New Zealand \n";
+                cout << "4: DH -> Dhaka, Bangladesh \n";
+                cin >> v1; cin.ignore();
+            }
+
+            cout << "\n0: HE -> Helsinki, Finland \n";
+            cout << "1: CA -> Cairo, Egypt \n";
+            cout << "2: TE -> Tehran, Iran\n";
+            cout << "3: AU -> Auckland, New Zealand \n";
+            cout << "4: DH -> Dhaka, Bangladesh \n";
+            cout << "Select the second Vertex: ";
+            cin >> v2; cin.ignore();
+
+            while (v2 > 4 || v2 < 0) {
+                cout << "Please select the correct country code!" << endl;
+                cout << "0: HE -> Helsinki, Finland \n";
+                cout << "1: CA -> Cairo, Egypt \n";
+                cout << "2: TE -> Tehran, Iran\n";
+                cout << "3: AU -> Auckland, New Zealand \n";
+                cout << "4: DH -> Dhaka, Bangladesh \n";
+                cin >> v2; cin.ignore();
+            }
+
+            wt = weight[v1][v2];
+            g.addEdge(v1, v2, wt);
             system("pause");
             break;
         case 8:
