@@ -9,6 +9,14 @@ using namespace std;
 class Graph
 {
 	int V; // vertices
+	int weight[5][5] =
+	{
+		{0,3383,3315,16659,6390},       //Depart: HE; Destination: HE,CA,TE,AU,DH
+		{3383,0,1984,16579,5849},       //Depart: CA; Destination: HE,CA,TE,AU,DH
+		{3315,1984,0,15010,3964},       //Depart: TE; Destination: HE,CA,TE,AU,DH
+		{16659,16570,15010,0,11090},    //Depart: AU; Destination: HE,CA,TE,AU,DH
+		{6390,5849,3964,11090,0}        //Depart: DH; Destination: HE,CA,TE,AU,DH
+	};
 	vector <pair<int, int>>* adj; // the adjacency list pointer
 	vector <pair<int, int>>* transpose; // the transposed adjacency list pointer for validating strong connected components
 	//bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
@@ -17,6 +25,9 @@ public:
 	void addEdge(int u, int v, int weight);
 	void initialize();
 	void PrintGraph(map<int,string> cityName);
+	bool isAvailablePath(int start, int end);
+	void generateRandEdges();
+	bool isReachable(int start, int end);
 	int dijkstra();
 };
 
@@ -76,6 +87,78 @@ void Graph::PrintGraph(map<int,string> cityName)
 	}
 }
 
+// returns true if the path is in the adjacency list, else returns false
+bool Graph::isAvailablePath(int start, int end) {
+	for (auto i = adj[start].begin(); i != adj[start].end(); i++) {
+		if (i->first == end) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void Graph::generateRandEdges() {
+
+	int rand_start = 0, rand_end = 0;
+
+	// generate random seed
+	srand(time(0));
+
+	// if both location is same or exist in the original graph, repeat till new unique edge
+	while (rand_start == rand_end || isAvailablePath(rand_start, rand_end)) {
+		rand_start = rand() % V;
+		rand_end = rand() % V;
+	}
+
+	addEdge(rand_start, rand_end, weight[rand_start][rand_end]);
+	cout << "Edge between " << rand_start << " and " << rand_end << " is created" << endl << endl;
+}
+
+bool Graph::isReachable(int start, int end) {
+	
+	// Base case
+	if (start == end) {
+		return true;
+	}
+
+	// Mark all vertices as not visited
+	bool* visited = new bool[V];
+	for (int i = 0; i < V; i++) {
+		visited[i] = false;
+	}
+
+	// Create a stack for BFS
+	stack<int> visits;
+
+	// mark the current node as visited and push it
+	visited[start] = true;
+	visits.push(start);
+
+	while (!visits.empty()) {
+		// pop the top stack
+		int current = visits.top();
+		visits.pop();
+
+		// found the ending location
+		if (current == end) {
+			return true;
+		}
+
+		// visit each adjacent nodes of the current nodes
+		for (auto i = adj[current].begin(); i != adj[current].end(); i++) {
+			if (!visited[i->first]) {
+				visited[i->first] = true;
+				visits.push(i->first);
+			}
+		}
+
+	}
+
+	// if BFS is complete without visiting end
+	return false;
+	
+}
+
 int Graph::dijkstra() {
 	
 	// initialise data structures and variables
@@ -99,7 +182,19 @@ int Graph::dijkstra() {
 		cin >> end;
 	}
 
-	// check if reachable
+	// check if not reachable
+	int count = 0;
+	while(!isReachable(start, end)) {
+		cout << "\n\nPath does not exist" << endl;
+
+		// generating random edges
+		generateRandEdges();
+		count++;
+	}
+
+	if (count != 0) {
+		cout << count << " path(s) are generated randomly" << endl;
+	}
 
 	// initialise the starting node
 	distance[start] = 0;
