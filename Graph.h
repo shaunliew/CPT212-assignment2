@@ -54,11 +54,6 @@ void Graph::initialize()
 	DH,Dhaka, Bangladesh is 4
 	initialize according to the diagram , refer to CPT_212_CITY.png
 	first agrument is the depart , second is destination, third arguement is the weight of the weight edges
-	g.addEdge("Cairo, Egypt", "Helsinki, Finland", 3383);
-	g.addEdge("Cairo, Egypt", "Tehran, Iran", 1984);
-	g.addEdge("Tehran, Iran", "Auckland, New Zealand", 15010);
-	g.addEdge("Auckland, New Zealand", "Dhaka, Bangladesh", 11090);
-	g.addEdge("Dhaka, Bangladesh", "Helsinki, Finland", 6390);
 	*/
 	addEdge(1, 0, 3383);
 	addEdge(1, 2, 1984);
