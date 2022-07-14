@@ -149,6 +149,7 @@ int main()
             g.dijkstra(citiesName);
             cout << "\n\nLatest graph is as follows: " << endl;
             g.PrintGraph(citiesName);
+            system("pause");
             break;
         case 5:
             //find the minimum spanning tree in the graph according to the vertex chosen
@@ -156,7 +157,7 @@ int main()
             break;
         case 6:
             // reset to default graph
-	    g.clear(5);
+	        g.clear(5);
             g.initialize();
             cout << "GRAPH HAS BEEN RESET TO DEFAULT \n";
             cout << endl;
