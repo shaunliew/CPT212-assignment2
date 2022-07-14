@@ -87,31 +87,30 @@ int main()
             cout << "*           Function 1: Connectivity of Graph Detection       *" << endl;
             cout << "***************************************************************" << endl;
             SCCheck = g.isStronglyConnected(adj, transpose, 5);
-            if (g.isStronglyConnected(adj, transpose, 5) == true)
+            if (SCCheck == true)
                 cout << "THE GRAPH IS STRONGLY CONNECTED" << endl;
-            else {
+            else
                 cout << "THE GRAPH IS NOT STRONGLY CONNECTED" << endl << endl;
 
-                while (SCCheck == false)
-                {
-                    g.generateRandEdges();
-                    cout << "\nModified Graph: " << endl;
-                    cout << "***************************************************************" << endl;
-                    g.PrintGraph(citiesName);
-                    cout << "***************************************************************" << endl;
-                    system("pause");
-                    SCCheck = g.isStronglyConnected(adj, transpose, 5);
-                    if (SCCheck == true)
-                        cout << "\n\nTHE GRAPH IS STRONGLY CONNECTED" << endl;
-                    else
-                        cout << "\n\nTHE GRAPH IS NOT STRONGLY CONNECTED" << endl;
-                }
+            while (SCCheck == false)
+            {
+                g.generateRandEdges();
+                cout << "\nModified Graph: " << endl;
+                cout << "***************************************************************" << endl;
+                g.PrintGraph(citiesName);
+                cout << "***************************************************************" << endl;
+                SCCheck = g.isStronglyConnected(adj, transpose, 5);
+                if (SCCheck == true)
+                    cout << "\n\nTHE GRAPH IS STRONGLY CONNECTED" << endl;
+                else
+                    cout << "\n\nTHE GRAPH IS NOT STRONGLY CONNECTED" << endl;
+                system("pause");
             }
             g.minimumEdges(adj, transpose, 5);
             g.PrintGraph(citiesName);
             system("pause");
             break;
-       case 3:
+        case 3:
             // detect cycle in the graph
             // Cycle Detection Section
             cout << "***************************************************************" << endl;

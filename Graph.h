@@ -21,7 +21,7 @@ class Graph
 	vector <pair<int, int>>* transpose; // the transposed adjacency list pointer for validating strong connected components
 	bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
 public:
-	Graph(int v); 
+	Graph(int v);
 	void addEdge(int u, int v, int weight);
 	void addEdgeReversed(int u, int v, int weight);
 	void initialize();
@@ -32,7 +32,7 @@ public:
 	void generateRandEdges();
 	bool isReachable(int start, int end);
 	void dijkstra(map<int, string> cityName);
-	void getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
+	Graph getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
 	bool isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
 	void DFS(vector<pair<int, int>> adj1[], int v, bool visited[]);
 	void minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
@@ -52,7 +52,7 @@ void Graph::addEdge(int u, int v, int weight)
 
 void Graph::addEdgeReversed(int u, int v, int weight)
 {
-	transpose[u].push_back(make_pair(v, weight)); // for directed graph
+	transpose[u].push_back(make_pair(v, weight)); // for inverse directed graph
 }
 
 void Graph::initialize()
@@ -171,12 +171,15 @@ void Graph::generateRandEdges() {
 }
 
 //This function is to get the transpose graph (Graph with edges reversed)
-void Graph::getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V) {
+Graph Graph::getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V) {
+	Graph gt(V);
 	for (int v = 0; v < V; v++)
 	{
+		
 		for (int j = 0; j < adj1->size(); j++)
-			addEdgeReversed(adj1[v][j].first, v, adj1[v][j].second);
+			gt.addEdgeReversed(adj1[v][j].first, v, adj1[v][j].second);
 	}
+	return gt;
 }
 
 //This function is to perfrom DFS starting from v
@@ -186,7 +189,7 @@ void Graph::DFS(vector<pair<int, int>> adj1[], int v, bool visited[])
 	visited[v] = true;
 
 	// Recur for all the vertices adjacent to this vertex
-	vector<pair<int, int> > ::iterator i;
+	vector<pair<int, int>> ::iterator i;
 	for (i = adj1[v].begin(); i != adj1[v].end(); ++i)
 		if (!visited[(*i).first])
 			DFS(adj1, (*i).first, visited);
@@ -224,13 +227,13 @@ void Graph::minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> t
 bool Graph::isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V)
 {
 	//Step 1: Mark all the vertices as not visited (For first DFS)
-	bool visited[5]{};
+	bool visited[5];
 	for (int i = 0; i < V; i++)
 	{
 		visited[i] = false;
 	}
 
-	// Step 2: Do DFS traversal starting from first vertex.
+	//Step 2: Do DFS traversal starting from first vertex.
 	DFS(adj1, 0, visited);
 	// If DFS traversal doesn’t visit all vertices, then return false.
 	for (int i = 0; i < V; i++) 
@@ -238,21 +241,21 @@ bool Graph::isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, 
 		if (visited[i] == false)
 			return false;
 	}
+	
+	//Step 3: Create a reversed graph
+	Graph gt = getTranspose(adj1, transpose, V);
 
-	// Step 3: Create a reversed graph
-	getTranspose(adj1, transpose, V);
-
-	// Step 4: Mark all the vertices as not visited (For second DFS)
+	//Step 4: Mark all the vertices as not visited (For second DFS)
 	for (int i = 0; i < V; i++) 
 	{
 		visited[i] = false;
 	}
 
-	// Step 5: Do DFS for reversed graph starting from first vertex.
-	// Staring Vertex must be same starting point of first DFS
-	DFS(transpose, 0, visited);
-	// If all vertices are not visited in second DFS, then
-	// return false
+	//Step 5: Do DFS for reversed graph starting from first vertex.
+	//Staring Vertex must be same starting point of first DFS
+	gt.DFS(transpose, 0, visited);
+	//If all vertices are not visited in second DFS, then
+	//return false
 	for (int i = 0; i < V; i++) 
 	{
 		if (visited[i] == false)
