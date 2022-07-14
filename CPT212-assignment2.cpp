@@ -131,6 +131,10 @@ int main()
             break;
         case 6:
             // reset to default graph
+	    g.clear(5);
+            g.initialize();
+            cout << "GRAPH HAS BEEN RESET TO DEFAULT \n";
+            cout << endl;
             system("pause");
             break;
         case 7:
