@@ -28,7 +28,7 @@ public:
 	bool isAvailablePath(int start, int end);
 	void generateRandEdges();
 	bool isReachable(int start, int end);
-	int dijkstra();
+	void dijkstra(map<int, string> cityName);
 };
 
 
@@ -159,11 +159,12 @@ bool Graph::isReachable(int start, int end) {
 	
 }
 
-int Graph::dijkstra() {
+void Graph::dijkstra(map<int, string> cityName) {
 	
 	// initialise data structures and variables
 	vector<int> distance(V, INT_MAX); // initialise a vector with a size V with extremely large values as infinity
 	set<pair<int, int>> tracker; // keep track of visited notes, <position,distance>
+	vector<int> path;
 	int start = 0, end = 0;
 
 	// request for inputs
@@ -185,7 +186,7 @@ int Graph::dijkstra() {
 	// check if not reachable
 	int count = 0;
 	while(!isReachable(start, end)) {
-		cout << "\n\nPath does not exist" << endl;
+		cout << "\nPath does not exist!" << endl;
 
 		// generating random edges
 		generateRandEdges();
@@ -193,12 +194,13 @@ int Graph::dijkstra() {
 	}
 
 	if (count != 0) {
-		cout << count << " path(s) are generated randomly" << endl;
+		cout << count << " path(s) are generated randomly." << endl;
 	}
 
 	// initialise the starting node
 	distance[start] = 0;
 	tracker.insert(make_pair(start, 0));
+	path.push_back(start);
 
 	while (!tracker.empty()) {
 		auto it = tracker.begin();
@@ -222,17 +224,31 @@ int Graph::dijkstra() {
 				// remove if neighbour already exist in the set
 				if (found != tracker.end()) {
 					tracker.erase(found);
+					auto pos_remove = find(path.begin(), path.end(), nbr_pos);
+					path.erase(pos_remove);
 				}
 
 				// insert the updated values with the new distance
 				distance[nbr_pos] = cumulated_dist + current_edge;
 				tracker.insert(make_pair(nbr_pos, distance[nbr_pos]));
+				path.push_back(nbr_pos);
 			}
 		}
 
 	}
 
-	return distance[end];
+	// print out the shortest path
+	cout << "\nShortest path: ";
+	for (auto location : path) {
+		cout << cityName.at(location) << "\t";
+		if (location == end) {
+			break;
+		}
+	}
+	cout << endl;
+
+	// print out the shortest distance
+	cout << "Shortest path distance: " << distance[end] << endl;
 	
 }
 #endif

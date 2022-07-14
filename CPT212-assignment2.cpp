@@ -38,12 +38,20 @@ int main()
     citiesName[4] = "DH";
    
 
+
     g.initialize();
     cout << "The graph has been initialized\n";
 
     g.PrintGraph(citiesName);
 
-    cout << "\n\n" << "Shortest distance is " << g.dijkstra() << endl;
+    // Shortest Path Section
+    cout << "***************************************************************" << endl;
+    cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
+    cout << "***************************************************************" << endl;
+
+    g.dijkstra(citiesName);
+    cout << "\n\nLatest graph is as follows: " << endl;
+    g.PrintGraph(citiesName);
     return 0;
 }
 
