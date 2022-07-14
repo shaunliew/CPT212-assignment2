@@ -14,24 +14,24 @@ class Graph
 	//bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
 public:
 	Graph(int V); 
-	void addEdge(vector<pair<int, int> > adj[], int u, int v, int weight);
-	void initialize(Graph& g, vector<pair<int, int> > adj[]);
-	void PrintGraph(vector<pair<int, int> > adj[], int V, map<int,string> cityName);
+	void addEdge(int u, int v, int weight);
+	void initialize();
+	void PrintGraph(map<int,string> cityName);
 };
 
 
 Graph::Graph(int v)
 {
 	this->V = v;
-	adj = new vector< pair<int, int> >; // create new node 
+	adj = new vector< pair<int, int> > [V]; // create new node 
 }
 
-void Graph::addEdge(vector<pair<int, int>> adj[], int u, int v, int weight)
+void Graph::addEdge(int u, int v, int weight)
 {
 	adj[u].push_back(make_pair(v, weight)); // for directed graph
 }
 
-void Graph::initialize(Graph& g, vector<pair<int, int> > adj[])
+void Graph::initialize()
 {
 	/*
 	assume that
@@ -48,14 +48,14 @@ void Graph::initialize(Graph& g, vector<pair<int, int> > adj[])
 	g.addEdge("Auckland, New Zealand", "Dhaka, Bangladesh", 11090);
 	g.addEdge("Dhaka, Bangladesh", "Helsinki, Finland", 6390);
 	*/
-	g.addEdge(adj, 1, 0, 3383);
-	g.addEdge(adj, 1, 2, 1984);
-	g.addEdge(adj, 2, 3, 15010);
-	g.addEdge(adj, 3, 4, 11090);
-	g.addEdge(adj, 4, 0, 6390);
+	addEdge(1, 0, 3383);
+	addEdge(1, 2, 1984);
+	addEdge(2, 3, 15010);
+	addEdge(3, 4, 11090);
+	addEdge(4, 0, 6390);
 }
 
-void Graph::PrintGraph(vector<pair<int, int> > adj[], int V, map<int,string> cityName)
+void Graph::PrintGraph(map<int,string> cityName)
 {
 	int v, w;
 	cout << "\nPrint Graph (Adjacency List): " << endl;

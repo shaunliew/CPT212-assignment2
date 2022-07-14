@@ -11,8 +11,6 @@ int main()
 {
     //initalize graph
     Graph g(5);
-    vector<pair<int, int> > adj[5];
-    vector<pair<int, int> > transpose[5];
     int weight[5][5] = 
     {
         {0,3383,3315,16659,6390},       //Depart: HE; Destination: HE,CA,TE,AU,DH
@@ -40,10 +38,10 @@ int main()
     citiesName[4] = "DH";
    
 
-    g.initialize(g, adj);
+    g.initialize();
     cout << "The graph has been initialized\n";
 
-    g.PrintGraph(adj, 5,citiesName);
+    g.PrintGraph(citiesName);
     return 0;
 }
 
