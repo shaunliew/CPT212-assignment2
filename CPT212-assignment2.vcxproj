@@ -144,7 +144,6 @@
     <ClCompile Include="CPT212-assignment2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphOriginal.h" />
     <ClInclude Include="Graph.h" />
   </ItemGroup>
   <ItemGroup>
