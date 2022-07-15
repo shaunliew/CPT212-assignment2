@@ -113,7 +113,7 @@ int main()
 
             while (SCCheck == false)
             {
-                g.generateRandEdges();
+                g.generateRandEdges(citiesName);
                 cout << "\nModified Graph: " << endl;
                 cout << "***************************************************************" << endl;
                 g.PrintGraph(citiesName);
@@ -143,7 +143,7 @@ int main()
 
                 while (cycle == false)
                 {
-                    g.generateRandEdges();
+                    g.generateRandEdges(citiesName);
                     cout << "Modified Graph: " << endl;
                     cout << "***************************************************************" << endl;
                     g.PrintGraph(citiesName);
@@ -176,49 +176,62 @@ int main()
             cout << "*     Function 4: Minimum Spanning Tree for selected edges    *" << endl;
             cout << "***************************************************************" << endl << endl;
             undirected_g.clear(5);
-            int start, end;
-            bool breaker;
-            breaker = false;
-            while (!breaker)
+            int choice;
+            choice = 2;
+            if (choice == 1)
             {
-                cout << "The current edges that we have:\n";
-                undirected_g.PrintGraph(citiesName);
-                cout << endl;
-                cout << "These are the cities available: " << endl;
-                cout << "0: HE -> Helsinki, Finland \n";
-                cout << "1: CA -> Cairo, Egypt \n";
-                cout << "2: TE -> Tehran, Iran\n";
-                cout << "3: AU -> Auckland, New Zealand \n";
-                cout << "4: DH -> Dhaka, Bangladesh \n";
-                cout << "Enter the start city code: ";
-                cin >> start;
-                cout << "Enter the end city code: ";
-                cin >> end;
-                if (start == end)
+                int start, end;
+                bool breaker;
+                breaker = false;
+                while (!breaker)
                 {
-                    cout << "Start and end city cannot be the same" << endl;
-                }
-                else if (start < 0 || start > 4 || end < 0 || end > 4)
-                {
-                    cout << "Invalid city code" << endl;
-                }
-                else
-                {
-                    undirected_g.addEdge(start, end, weight[start][end], true);
-                    cout << "Do you wanna to add more edges? (y/n)\n";
-                    cout << "Answer: ";
-                    char ch;
-                    cin >> ch;
-                    if (ch == 'n')
+                    cout << "The current edges that we have:\n";
+                    undirected_g.PrintGraph(citiesName);
+                    cout << endl;
+                    cout << "These are the cities available: " << endl;
+                    cout << "0: HE -> Helsinki, Finland \n";
+                    cout << "1: CA -> Cairo, Egypt \n";
+                    cout << "2: TE -> Tehran, Iran\n";
+                    cout << "3: AU -> Auckland, New Zealand \n";
+                    cout << "4: DH -> Dhaka, Bangladesh \n";
+                    cout << "Enter the start city code: ";
+                    cin >> start;
+                    cout << "Enter the end city code: ";
+                    cin >> end;
+                    if (start == end)
                     {
-                        breaker = true;
+                        cout << "Start and end city cannot be the same" << endl;
+                    }
+                    else if (start < 0 || start > 4 || end < 0 || end > 4)
+                    {
+                        cout << "Invalid city code" << endl;
                     }
                     else
                     {
-                        breaker = false;
+                        // need to make sure that we add the undirected edges
+                        undirected_g.addEdge(start, end, weight[start][end], true);
+                        cout << "Do you wanna to add more edges? (y/n)\n";
+                        cout << "Answer: ";
+                        char ch;
+                        cin >> ch;
+                        if (ch == 'n')
+                        {
+                            breaker = true;
+                        }
+                        else
+                        {
+                            breaker = false;
+                        }
                     }
+                    system("cls");
                 }
-                system("cls");
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    undirected_g.generateRandEdgesUndirected(citiesName);
+                }
             }
 
             // g.addEdge(1, 0, weight[1][0]);
