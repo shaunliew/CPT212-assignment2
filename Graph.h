@@ -21,7 +21,6 @@ class Graph
 	bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
 public:
 	Graph(int v);
-	void addEdge(int u, int v, int weight);
 	void addEdge(int u, int v, int weight, bool undir = false);
 	void removeEdge(vector<int> adj1[], int u, int v);
 	void initialize();
@@ -32,7 +31,6 @@ public:
 	void generateRandEdges(map<int, string> cityName);
 	void generateRandEdgesUndirected(map<int, string> cityName);
 	bool isAvailableEdge(int start, int end);
-	void generateRandEdges();
 	bool isReachable(int start, int end);
 	void dijkstra(map<int, string> cityName);
 	Graph getTranspose();
