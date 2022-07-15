@@ -289,13 +289,18 @@ int main()
         case 8:
             //remove edges from the graph
             cout << "***************************************************************" << endl;
-            cout << "*                      Add New Edges                          *" << endl;
+            cout << "*                      Remove Edges                           *" << endl;
             cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
             cout << "*              1: CA -> Cairo, Egypt                          *" << endl;
             cout << "*              2: TE -> Tehran, Iran                          *" << endl;
             cout << "*              3: AU -> Auckland, New Zealand                 *" << endl;
             cout << "*              4: DH -> Dhaka, Bangladesh                     *" << endl;
             cout << "***************************************************************" << endl << endl;
+
+            cout << "Current Graph: " << endl;
+            cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            cout << "***************************************************************" << endl;
 
             cout << "Select the first Vertex: ";
             cin >> v1; cin.ignore();

@@ -57,8 +57,15 @@ void Graph::addEdge(int u, int v, int weight, bool undir)
 
 
 // A utility function to delete an edge in an undirected graph.
-void Graph::removeEdge(vector<int> adj1[], int u, int v)
+void Graph::removeEdge(int u, int v)
 {
+	auto found = tracker.find(make_pair(nbr_pos, distance[nbr_pos]));
+
+	// remove if neighbour already exist in the set
+	if (found != tracker.end()) {
+		tracker.erase(found);
+	}
+
 	// Traversing through the first vector list
 	// and removing the second element from it
 	for (int i = 0; i < adj1[u].size(); i++) {
@@ -68,14 +75,7 @@ void Graph::removeEdge(vector<int> adj1[], int u, int v)
 		}
 	}
 
-	// Traversing through the second vector list
-	// and removing the first element from it
-	for (int i = 0; i < adj1[v].size(); i++) {
-		if (adj1[v][i] == u) {
-			adj1[v].erase(adj1[v].begin() + i);
-			break;
-		}
-	}
+	
 }
 
 void Graph::initialize()
