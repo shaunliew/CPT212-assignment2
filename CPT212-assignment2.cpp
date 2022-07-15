@@ -11,7 +11,7 @@ int main()
 {
     //initalize graph
     Graph g(5);
-    Graph undirected_g(5);
+    Graph undirected_g(5); // for minimum spanning tree
     vector<pair<int, int>> adj[5];
     vector<pair<int, int>> transpose[5];
     int weight[5][5] = 
@@ -214,6 +214,7 @@ int main()
             cout << "***************************************************************" << endl << endl;
             undirected_g.clear(5);
 
+            cout << "For this function 4, we need to use undirected graph to find minimum spanning tree\n\n";
 
             int start, end;
             bool breaker;
@@ -249,17 +250,26 @@ int main()
                         undirected_g.addEdge(start, end, weight[start][end], true);
                         cout << endl;
                         cout << "The edge is added successfully\n";
-                        cout << "Do you wanna to add more edges? (y/n)\n";
-                        cout << "Answer: ";
+                        
                         char ch;
-                        cin >> ch;
-                        if (ch == 'n')
+                        ch = 'z';
+                        while (ch != 'n' && ch != 'y')
                         {
-                            breaker = true;
-                        }
-                        else
-                        {
-                            breaker = false;
+                            cout << "Do you wanna to add more edges? (y/n)\n";
+                            cout << "Answer: ";
+                            cin >> ch;
+                            if (ch == 'n')
+                            {
+                                breaker = true;
+                            }
+                            else if (ch == 'y')
+                            {
+                                breaker = false;
+                            }
+                            else
+                            {
+                                cout << "Invalid Input. Please Try Again\n";
+                            }
                         }
                     }
                     system("cls");
@@ -270,26 +280,32 @@ int main()
             undirected_g.PrintGraph(citiesName);
             if (!undirected_g.isStronglyConnected())
             {
+                cout << "\n***************************************************************" << endl;
                 cout << "This is impossible to form Minimum Spanning Tree with current edges\n";
                 cout << "Will add random edges until a Minimum Spanning Tree is formed\n";
+                cout << "***************************************************************" << endl;
                 system("pause");
                 cout << endl;
                 cout << endl;
             }
+            cout << "***************************************************************" << endl;
             while (!undirected_g.isStronglyConnected())
             {
                 undirected_g.generateRandEdgesUndirected(citiesName);
             }
+            cout << "***************************************************************" << endl;
             system("pause");
-            //use these parameter to validate whether it can produce MST or not
-            // g.addEdge(1, 0, weight[1][0]);
-            // g.addEdge(1, 2, weight[1][2]);
-            // g.addEdge(2, 3, weight[2][3]);
-            // g.addEdge(3, 4, weight[3][4]);
-            // g.addEdge(4, 0, weight[4][0]);
-            // g.addEdge(0, 3, weight[0][3]);
-            // g.addEdge(0, 2, weight[0][2]);
-            undirected_g.prism_mst(cityWeight);
+             
+            //use these value to validate whether it produces MST or not
+            //0,1
+            //1,2
+            //2,3
+            //3,4
+            //4,0
+            cout << endl << endl;
+            cout << "***************************************************************" << endl;
+            undirected_g.prim_janik_mst(cityWeight);
+            cout << "***************************************************************" << endl;
             system("pause");
             break;
 

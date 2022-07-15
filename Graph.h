@@ -35,7 +35,7 @@ public:
 	Graph getTranspose();
 	bool isStronglyConnected();
 	void DFS(int v, bool* visited);
-	void prism_mst(map<int, string> cityWeight);
+	void prim_janik_mst(map<int, string> cityWeight);
 };
 
 
@@ -196,7 +196,7 @@ void Graph::generateRandEdgesUndirected(map<int, string> cityName)
 		rand_end = rand() % V;
 	}
 
-	addEdge(rand_start, rand_end, weight[rand_start][rand_end], true);
+	addEdge(rand_start, rand_end, weight[rand_start][rand_end], true); // for undirected graph
 	cout << "Edge between " << cityName[rand_start] << " and " << cityName[rand_end] << " is created" << endl << endl;
 }
 
@@ -405,25 +405,24 @@ void Graph::dijkstra(map<int, string> cityName) {
 	
 }
 
-
-void Graph::prism_mst(map<int, string> cityWeight)
+//Function 4: minimum spanning tree using prim-Jarnik algorithm
+//for this function, we need to use undirected graph
+void Graph::prim_janik_mst(map<int, string> cityWeight)
 {
 	cout << "The minimum spanning tree is: " << endl;
-	// most important stuff
-	// Init a Min Heap
+	// Initialize a minimum Heap
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
 
-	// another array
-	// visited array that denotes whether a node has been included in MST or Not
+	// create another array
+	// this array is visited array that denotes whether a node has been included in minimum spanning tree or not
 	bool* vis = new bool[V] {0};
 	int ans = 0;
 
-	// begin
-	Q.push({ 0, 0 }); // weight, node
+	Q.push({ 0, 0 }); // the weight and the node
 
 	while (!Q.empty())
 	{
-		// pick out the edge with min weight
+		// pick out the edge that have minimum weight
 		auto best = Q.top();
 		Q.pop();
 		int to = best.second;
@@ -431,16 +430,16 @@ void Graph::prism_mst(map<int, string> cityWeight)
 
 		if (vis[to])
 		{
-			// discard the edge, and continue
+			// if it is visited, then discard the edge, and continue
 			continue;
 		}
 
 		if (weight != 0)
 		{
-			cout << "( " << cityWeight[weight] << " , " << weight << " )" << endl;
+			cout << "( " << cityWeight[weight] << " , " << weight << " )" << endl; // display the edge of the minimum spanning tree together with the weight
 		}
 
-		// otherwise take the current edge
+		// if it is not visited,  take the current edge and add the current weight
 		ans += weight;
 		vis[to] = 1;
 
@@ -454,6 +453,7 @@ void Graph::prism_mst(map<int, string> cityWeight)
 			}
 		}
 	}
+	//display the total weight for the minimum spanning tree
 	cout << "Total Weight: " << ans << endl;
 }
 #endif
