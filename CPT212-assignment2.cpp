@@ -163,6 +163,16 @@ int main()
             cout << "***************************************************************" << endl;
             cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
             cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            //show index with respective to the location
+            cout << "***************************************************************" << endl;
+            cout << "*                      Location                               *" << endl;
+            cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
+            cout << "*              1: CA -> Cairo, Egypt                          *" << endl;
+            cout << "*              2: TE -> Tehran, Iran                          *" << endl;
+            cout << "*              3: AU -> Auckland, New Zealand                 *" << endl;
+            cout << "*              4: DH -> Dhaka, Bangladesh                     *" << endl;
+            cout << "***************************************************************" << endl << endl;
             g.dijkstra(citiesName);
             cout << "\n\nLatest graph is as follows: " << endl;
             g.PrintGraph(citiesName);

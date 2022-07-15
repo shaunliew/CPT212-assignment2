@@ -319,14 +319,14 @@ void Graph::dijkstra(map<int, string> cityName) {
 	int start = 0, end = 0;
 
 	// request for inputs
-	cout << "\nPlease enter your starting location: ";
+	cout << "\nPlease select the correct starting country code: ";
 	cin >> start;
 	// since we only have 5 locations, hence only allow between 0 - 4
 	while (start < 0 || start > 4) {
 		cout << "Invalid input. Please key in values range in 0 to 4: ";
 		cin >> start;
 	}
-	cout << "Please enter your ending location: ";
+	cout << "Please select the correct ending country code: ";
 	cin >> end;
 	// only allow between 0 - 4 and must different location
 	while ((end < 0 || end >4) || start == end) {
@@ -342,6 +342,7 @@ void Graph::dijkstra(map<int, string> cityName) {
 		// generating random edges
 		generateRandEdges(cityName);
 		count++;
+		system("pause");
 	}
 
 	if (count != 0) {
