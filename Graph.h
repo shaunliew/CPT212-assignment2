@@ -22,7 +22,7 @@ class Graph
 public:
 	Graph(int v);
 	void addEdge(int u, int v, int weight, bool undir = false);
-	void removeEdge(vector<int> adj1[], int u, int v);
+	void removeEdge(int u, int v, map<int, string> cityName);
 	void initialize();
 	void clear(int V);
 	void PrintGraph(map<int,string> cityName);
@@ -57,25 +57,15 @@ void Graph::addEdge(int u, int v, int weight, bool undir)
 
 
 // A utility function to delete an edge in an undirected graph.
-void Graph::removeEdge(int u, int v)
+void Graph::removeEdge(int u, int v, map<int, string> cityName)
 {
-	auto found = tracker.find(make_pair(nbr_pos, distance[nbr_pos]));
-
-	// remove if neighbour already exist in the set
-	if (found != tracker.end()) {
-		tracker.erase(found);
-	}
-
-	// Traversing through the first vector list
-	// and removing the second element from it
-	for (int i = 0; i < adj1[u].size(); i++) {
-		if (adj1[u][i] == v) {
-			adj1[u].erase(adj1[u].begin() + i);
+	for (auto i = adj[u].begin(); i < adj[u].end(); i++) {
+		if (i->first == v) {
+			adj[u].erase(i);
+			cout << "\nEdge between " << cityName[u] << " and " << cityName[v] << " is deleted" << endl << endl;
 			break;
 		}
 	}
-
-	
 }
 
 void Graph::initialize()

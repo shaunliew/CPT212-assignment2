@@ -12,7 +12,6 @@ int main()
     //initalize graph
     Graph g(5);
     Graph undirected_g(5);
-    vector<int> adj1[5];
     vector<pair<int, int>> adj[5];
     vector<pair<int, int>> transpose[5];
     int weight[5][5] = 
@@ -23,6 +22,7 @@ int main()
         {16659,16570,15010,0,11090},    //Depart: AU; Destination: HE,CA,TE,AU,DH
         {6390,5849,3964,11090,0}        //Depart: DH; Destination: HE,CA,TE,AU,DH
     };
+    int v1 = 0, v2 = 0, wt = 0;
 
     //map declaration for cityWeight
     map<int, string> cityWeight =
@@ -267,7 +267,6 @@ int main()
             break;
         case 7:
             //add new edges to the graph
-            int v1, v2, wt;
             cout << "***************************************************************" << endl;
             cout << "*                      Add New Edges                          *" << endl;
             cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
@@ -298,6 +297,11 @@ int main()
             system("pause");
             break;
         case 8:
+            cout << "Current Graph: " << endl;
+            cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            cout << "***************************************************************" << endl;
+
             //remove edges from the graph
             cout << "***************************************************************" << endl;
             cout << "*                      Remove Edges                           *" << endl;
@@ -308,27 +312,34 @@ int main()
             cout << "*              4: DH -> Dhaka, Bangladesh                     *" << endl;
             cout << "***************************************************************" << endl << endl;
 
-            cout << "Current Graph: " << endl;
-            cout << "***************************************************************" << endl;
-            g.PrintGraph(citiesName);
-            cout << "***************************************************************" << endl;
-
-            cout << "Select the first Vertex: ";
-            cin >> v1; cin.ignore();
-            while (v1 > 4 || v1 < 0) {
-                cout << "\nError! Please select the correct country code: ";
+            // validate whether the edge exist in the graph and request user inputs
+            while (!g.isAvailableEdge(v1, v2)) {
+                cout << "Select the first Vertex: ";
                 cin >> v1; cin.ignore();
-            }
+                while (v1 > 4 || v1 < 0) {
+                    cout << "\nError! Please select the correct country code: ";
+                    cin >> v1; cin.ignore();
+                }
 
-            cout << "\nSelect the second Vertex: ";
-            cin >> v2; cin.ignore();
-            while (v2 > 4 || v2 < 0) {
-                cout << "\nError! Please select the correct country code: ";
+                cout << "Select the second Vertex: ";
                 cin >> v2; cin.ignore();
+                while (v2 > 4 || v2 < 0) {
+                    cout << "\nError! Please select the correct country code: ";
+                    cin >> v2; cin.ignore();
+                }
+
+                if (!g.isAvailableEdge(v1, v2)) {
+                    cout << "\n Edge is not available. Please select another one!\n\n";
+                }
             }
 
             // Remove the edge by calling the function removeEdge().
-            g.removeEdge(adj1, v1, v2);
+            g.removeEdge(v1, v2, citiesName);
+
+            cout << "Modified Graph: " << endl;
+            cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            cout << "***************************************************************" << endl;
 			
             system("pause");
             break;
