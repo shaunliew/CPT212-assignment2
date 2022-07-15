@@ -12,7 +12,6 @@ int main()
     //initalize graph
     Graph g(5);
     Graph undirected_g(5);
-    vector<int> adj1[5];
     vector<pair<int, int>> adj[5];
     vector<pair<int, int>> transpose[5];
     int weight[5][5] = 
@@ -23,6 +22,7 @@ int main()
         {16659,16570,15010,0,11090},    //Depart: AU; Destination: HE,CA,TE,AU,DH
         {6390,5849,3964,11090,0}        //Depart: DH; Destination: HE,CA,TE,AU,DH
     };
+    int v1 = 0, v2 = 0, wt = 0;
 
     //map declaration for cityWeight
     map<int, string> cityWeight =
@@ -177,6 +177,16 @@ int main()
             cout << "***************************************************************" << endl;
             cout << "*      Function 3: Shortest Path Between 2 Locations          *" << endl;
             cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            //show index with respective to the location
+            cout << "***************************************************************" << endl;
+            cout << "*                      Location                               *" << endl;
+            cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
+            cout << "*              1: CA -> Cairo, Egypt                          *" << endl;
+            cout << "*              2: TE -> Tehran, Iran                          *" << endl;
+            cout << "*              3: AU -> Auckland, New Zealand                 *" << endl;
+            cout << "*              4: DH -> Dhaka, Bangladesh                     *" << endl;
+            cout << "***************************************************************" << endl << endl;
             g.dijkstra(citiesName);
             cout << "\n\nLatest graph is as follows: " << endl;
             g.PrintGraph(citiesName);
@@ -190,15 +200,13 @@ int main()
             cout << "*     Function 4: Minimum Spanning Tree for selected edges    *" << endl;
             cout << "***************************************************************" << endl << endl;
             undirected_g.clear(5);
-            int choice;
-            choice = 2;
-            if (choice == 1)
+
+
+            int start, end;
+            bool breaker;
+            breaker = false;
+            while (!breaker)
             {
-                int start, end;
-                bool breaker;
-                breaker = false;
-                while (!breaker)
-                {
                     cout << "The current edges that we have:\n";
                     undirected_g.PrintGraph(citiesName);
                     cout << endl;
@@ -215,15 +223,19 @@ int main()
                     if (start == end)
                     {
                         cout << "Start and end city cannot be the same" << endl;
+                        system("pause");
                     }
                     else if (start < 0 || start > 4 || end < 0 || end > 4)
                     {
                         cout << "Invalid city code" << endl;
+                        system("pause");
                     }
                     else
                     {
                         // need to make sure that we add the undirected edges
                         undirected_g.addEdge(start, end, weight[start][end], true);
+                        cout << endl;
+                        cout << "The edge is added successfully\n";
                         cout << "Do you wanna to add more edges? (y/n)\n";
                         cout << "Answer: ";
                         char ch;
@@ -238,16 +250,25 @@ int main()
                         }
                     }
                     system("cls");
-                }
-            }
-            else
+             }
+            cout << endl;
+            cout << endl;
+            cout << "The current edges that we have:\n";
+            undirected_g.PrintGraph(citiesName);
+            if (!undirected_g.isStronglyConnected())
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    undirected_g.generateRandEdgesUndirected(citiesName);
-                }
+                cout << "This is impossible to form Minimum Spanning Tree with current edges\n";
+                cout << "Will add random edges until a Minimum Spanning Tree is formed\n";
+                system("pause");
+                cout << endl;
+                cout << endl;
             }
-
+            while (!undirected_g.isStronglyConnected())
+            {
+                undirected_g.generateRandEdgesUndirected(citiesName);
+            }
+            system("pause");
+            //use these parameter to validate whether it can produce MST or not
             // g.addEdge(1, 0, weight[1][0]);
             // g.addEdge(1, 2, weight[1][2]);
             // g.addEdge(2, 3, weight[2][3]);
@@ -270,7 +291,6 @@ int main()
             break;
         case 7:
             //add new edges to the graph
-            int v1, v2, wt;
             cout << "***************************************************************" << endl;
             cout << "*                      Add New Edges                          *" << endl;
             cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
@@ -301,9 +321,14 @@ int main()
             system("pause");
             break;
         case 8:
+            cout << "Current Graph: " << endl;
+            cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            cout << "***************************************************************" << endl;
+
             //remove edges from the graph
             cout << "***************************************************************" << endl;
-            cout << "*                      Add New Edges                          *" << endl;
+            cout << "*                      Remove Edges                           *" << endl;
             cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
             cout << "*              1: CA -> Cairo, Egypt                          *" << endl;
             cout << "*              2: TE -> Tehran, Iran                          *" << endl;
@@ -311,22 +336,34 @@ int main()
             cout << "*              4: DH -> Dhaka, Bangladesh                     *" << endl;
             cout << "***************************************************************" << endl << endl;
 
-            cout << "Select the first Vertex: ";
-            cin >> v1; cin.ignore();
-            while (v1 > 4 || v1 < 0) {
-                cout << "\nError! Please select the correct country code: ";
+            // validate whether the edge exist in the graph and request user inputs
+            while (!g.isAvailableEdge(v1, v2)) {
+                cout << "Select the first Vertex: ";
                 cin >> v1; cin.ignore();
-            }
+                while (v1 > 4 || v1 < 0) {
+                    cout << "\nError! Please select the correct country code: ";
+                    cin >> v1; cin.ignore();
+                }
 
-            cout << "\nSelect the second Vertex: ";
-            cin >> v2; cin.ignore();
-            while (v2 > 4 || v2 < 0) {
-                cout << "\nError! Please select the correct country code: ";
+                cout << "Select the second Vertex: ";
                 cin >> v2; cin.ignore();
+                while (v2 > 4 || v2 < 0) {
+                    cout << "\nError! Please select the correct country code: ";
+                    cin >> v2; cin.ignore();
+                }
+
+                if (!g.isAvailableEdge(v1, v2)) {
+                    cout << "\n Edge is not available. Please select another one!\n\n";
+                }
             }
 
             // Remove the edge by calling the function removeEdge().
-            g.removeEdge(adj1, v1, v2);
+            g.removeEdge(v1, v2, citiesName);
+
+            cout << "Modified Graph: " << endl;
+            cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            cout << "***************************************************************" << endl;
 			
             system("pause");
             break;

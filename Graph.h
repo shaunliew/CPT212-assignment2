@@ -22,7 +22,7 @@ class Graph
 public:
 	Graph(int v);
 	void addEdge(int u, int v, int weight, bool undir = false);
-	void removeEdge(vector<int> adj1[], int u, int v);
+	void removeEdge(int u, int v, map<int, string> cityName);
 	void initialize();
 	void clear(int V);
 	void PrintGraph(map<int,string> cityName);
@@ -57,22 +57,12 @@ void Graph::addEdge(int u, int v, int weight, bool undir)
 
 
 // A utility function to delete an edge in an undirected graph.
-void Graph::removeEdge(vector<int> adj1[], int u, int v)
+void Graph::removeEdge(int u, int v, map<int, string> cityName)
 {
-	// Traversing through the first vector list
-	// and removing the second element from it
-	for (int i = 0; i < adj1[u].size(); i++) {
-		if (adj1[u][i] == v) {
-			adj1[u].erase(adj1[u].begin() + i);
-			break;
-		}
-	}
-
-	// Traversing through the second vector list
-	// and removing the first element from it
-	for (int i = 0; i < adj1[v].size(); i++) {
-		if (adj1[v][i] == u) {
-			adj1[v].erase(adj1[v].begin() + i);
+	for (auto i = adj[u].begin(); i < adj[u].end(); i++) {
+		if (i->first == v) {
+			adj[u].erase(i);
+			cout << "\nEdge between " << cityName[u] << " and " << cityName[v] << " is deleted" << endl << endl;
 			break;
 		}
 	}
@@ -328,14 +318,14 @@ void Graph::dijkstra(map<int, string> cityName) {
 	int start = 0, end = 0;
 
 	// request for inputs
-	cout << "\nPlease enter your starting location: ";
+	cout << "\nPlease select the correct starting country code: ";
 	cin >> start;
 	// since we only have 5 locations, hence only allow between 0 - 4
 	while (start < 0 || start > 4) {
 		cout << "Invalid input. Please key in values range in 0 to 4: ";
 		cin >> start;
 	}
-	cout << "Please enter your ending location: ";
+	cout << "Please select the correct ending country code: ";
 	cin >> end;
 	// only allow between 0 - 4 and must different location
 	while ((end < 0 || end >4) || start == end) {
@@ -351,6 +341,7 @@ void Graph::dijkstra(map<int, string> cityName) {
 		// generating random edges
 		generateRandEdges(cityName);
 		count++;
+		system("pause");
 	}
 
 	if (count != 0) {
