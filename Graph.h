@@ -22,7 +22,7 @@ class Graph
 	bool isCyclicUtil(vector<pair<int, int> > adj[], int v, bool visited[], bool* rs); // check the graph is cyclic or not
 public:
 	Graph(int v);
-	void addEdge(int u, int v, int weight);
+	void addEdge(int u, int v, int weight, bool undir = false);
 	void addEdgeReversed(int u, int v, int weight);
 	void initialize();
 	void clear(int V);
@@ -36,6 +36,7 @@ public:
 	bool isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
 	void DFS(vector<pair<int, int>> adj1[], int v, bool visited[]);
 	void minimumEdges(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
+	void prism_mst(map<int, string> cityWeight);
 };
 
 
@@ -45,9 +46,13 @@ Graph::Graph(int v)
 	adj = new vector< pair<int, int> > [V]; // create new node 
 }
 
-void Graph::addEdge(int u, int v, int weight)
+void Graph::addEdge(int u, int v, int weight, bool undir)
 {
 	adj[u].push_back(make_pair(v, weight)); // for directed graph
+	if (undir)
+	{
+		adj[v].push_back(make_pair(u, weight)); // for undirected graph
+	}
 }
 
 void Graph::addEdgeReversed(int u, int v, int weight)
@@ -403,5 +408,57 @@ void Graph::dijkstra(map<int, string> cityName) {
 	// print out the shortest distance
 	cout << "Shortest path distance: " << distance[end] << endl;
 	
+}
+
+
+void Graph::prism_mst(map<int, string> cityWeight)
+{
+	cout << "The minimum spanning tree is: " << endl;
+	// most important stuff
+	// Init a Min Heap
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
+
+	// another array
+	// visited array that denotes whether a node has been included in MST or Not
+	bool* vis = new bool[V] {0};
+	int ans = 0;
+
+	// begin
+	Q.push({ 0, 0 }); // weight, node
+
+	while (!Q.empty())
+	{
+		// pick out the edge with min weight
+		auto best = Q.top();
+		Q.pop();
+		int to = best.second;
+		int weight = best.first;
+
+		if (vis[to])
+		{
+			// discard the edge, and continue
+			continue;
+		}
+
+		if (weight != 0)
+		{
+			cout << "( " << cityWeight[weight] << " , " << weight << " )" << endl;
+		}
+
+		// otherwise take the current edge
+		ans += weight;
+		vis[to] = 1;
+
+		// add the new edges in the queue
+		for (auto x : adj[to])
+		{
+
+			if (vis[x.first] == 0)
+			{
+				Q.push({ x.second, x.first });
+			}
+		}
+	}
+	cout << "Total Weight: " << ans << endl;
 }
 #endif
