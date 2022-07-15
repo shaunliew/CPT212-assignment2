@@ -12,7 +12,7 @@ class Graph
 	int weight[5][5] =
 	{
 		{0,3383,3315,16659,6390},       //Depart: HE; Destination: HE,CA,TE,AU,DH
-		{3383,0,1984,16579,5849},       //Depart: CA; Destination: HE,CA,TE,AU,DH
+		{3383,0,1984,16570,5849},       //Depart: CA; Destination: HE,CA,TE,AU,DH
 		{3315,1984,0,15010,3964},       //Depart: TE; Destination: HE,CA,TE,AU,DH
 		{16659,16570,15010,0,11090},    //Depart: AU; Destination: HE,CA,TE,AU,DH
 		{6390,5849,3964,11090,0}        //Depart: DH; Destination: HE,CA,TE,AU,DH
@@ -29,7 +29,8 @@ public:
 	void PrintGraph(map<int,string> cityName);
 	bool isCyclic(vector<pair<int, int> > adj1[]);
 	bool isAvailablePath(int start, int end);
-	void generateRandEdges();
+	void generateRandEdges(map<int, string> cityName);
+	void generateRandEdgesUndirected(map<int, string> cityName);
 	bool isReachable(int start, int end);
 	void dijkstra(map<int, string> cityName);
 	Graph getTranspose(vector<pair<int, int>> adj1[], vector<pair<int, int>> transpose[], int V);
@@ -158,7 +159,7 @@ bool Graph::isAvailablePath(int start, int end) {
 	return false;
 }
 
-void Graph::generateRandEdges() {
+void Graph::generateRandEdges(map<int, string> cityName) {
 
 	int rand_start = 0, rand_end = 0;
 
@@ -172,7 +173,24 @@ void Graph::generateRandEdges() {
 	}
 
 	addEdge(rand_start, rand_end, weight[rand_start][rand_end]);
-	cout << "Edge between " << rand_start << " and " << rand_end << " is created" << endl << endl;
+	cout << "Edge between " << cityName[rand_start] << " and " << cityName[rand_end] << " is created" << endl << endl;
+}
+
+void Graph::generateRandEdgesUndirected(map<int, string> cityName)
+{
+	int rand_start = 0, rand_end = 0;
+
+	// generate random seed
+	srand(time(0));
+
+	// if both location is same or exist in the original graph, repeat till new unique edge
+	while (rand_start == rand_end || isAvailablePath(rand_start, rand_end)) {
+		rand_start = rand() % V;
+		rand_end = rand() % V;
+	}
+
+	addEdge(rand_start, rand_end, weight[rand_start][rand_end], true);
+	cout << "Edge between " << cityName[rand_start] << " and " << cityName[rand_end] << " is created" << endl << endl;
 }
 
 //This function is to get the transpose graph (Graph with edges reversed)
@@ -345,7 +363,7 @@ void Graph::dijkstra(map<int, string> cityName) {
 		cout << "\nPath does not exist!" << endl;
 
 		// generating random edges
-		generateRandEdges();
+		generateRandEdges(cityName);
 		count++;
 	}
 
