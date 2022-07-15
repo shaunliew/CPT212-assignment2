@@ -100,6 +100,7 @@ int main()
             g.PrintGraph(citiesName);
             system("pause");
             break;
+			
         case 2:
             //Check whether the graph is strongly connected
             cout << "***************************************************************" << endl;
@@ -142,6 +143,7 @@ int main()
             g.PrintGraph(citiesName);
             system("pause");
             break;
+			
         case 3:
             // detect cycle in the graph
             // Cycle Detection Section
@@ -149,28 +151,38 @@ int main()
             cout << "*                 Function 2: Cycle  Detection                *" << endl;
             cout << "***************************************************************" << endl;
             cycle = g.isCyclic(adj);
+            cout << "-----------------------AFTER DETECTING-------------------------" << endl;
 
             if (cycle == true)
-                cout << "CYCLE DETECTED" << endl;
-	        else {
-		        cout << "NO CYCLE DETECTED" << endl << endl;
+                cout << "CYCLE DETECTED!" << endl;
+            else {
+                cout << "NO CYCLE DETECTED! RANDOM EDGES ARE GENERATED." << endl << endl;
 
                 while (cycle == false)
                 {
                     g.generateRandEdges(citiesName);
-                    cout << "Modified Graph: " << endl;
+                    cout << "***************************************************************" << endl;
+                    cout << "*                      MODIFIED GRAPH:                        *" << endl;
                     cout << "***************************************************************" << endl;
                     g.PrintGraph(citiesName);
-                    cout << "***************************************************************" << endl;
+
                     cycle = g.isCyclic(adj);
+                    cout << "-----------------------DETECTING AGAIN-------------------------" << endl;
                     if (cycle == true)
                         cout << "CYCLE DETECTED! " << endl << endl;
                     else
                         cout << "NO CYCLE DETECTED." << endl << endl;
+                    system("pause");
+                    system("CLS");
                 }
             }
-	        system("pause");
-	        break;
+            cout << "***************************************************************" << endl;
+            cout << "*                  CYCLE DETECTION GRAPH                      *" << endl;
+            cout << "***************************************************************" << endl;
+            g.PrintGraph(citiesName);
+            system("pause");
+            break;
+			
         case 4:
             //find the shortest path between 2 vertex in the graph
             // Shortest Path Section
@@ -192,6 +204,7 @@ int main()
             g.PrintGraph(citiesName);
             system("pause");
             break;
+			
         case 5:
             //find the minimum spanning tree in the graph according to the vertex chosen
             //create undirected graph just for this function
@@ -280,7 +293,6 @@ int main()
             system("pause");
             break;
 
-
         case 6:
             // reset to default graph
 	        g.clear(5);
@@ -289,6 +301,7 @@ int main()
             cout << endl;
             system("pause");
             break;
+			
         case 7:
             //add new edges to the graph
             cout << "***************************************************************" << endl;
@@ -320,6 +333,7 @@ int main()
 
             system("pause");
             break;
+			
         case 8:
             cout << "Current Graph: " << endl;
             cout << "***************************************************************" << endl;
@@ -367,11 +381,13 @@ int main()
 			
             system("pause");
             break;
+			
         case 9:
             //exit the program
             cout << "Thank you for using this program\n";
             system("pause");
             break;
+			
         default:
             cout << "Invalid choice!\n";
             cout << "Please make sure you choose the number between 1 to 9\n";
