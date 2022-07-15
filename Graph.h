@@ -24,6 +24,7 @@ public:
 	Graph(int v);
 	void addEdge(int u, int v, int weight, bool undir = false);
 	void addEdgeReversed(int u, int v, int weight);
+	void removeEdge(vector<int> adj1[], int u, int v);
 	void initialize();
 	void clear(int V);
 	void PrintGraph(map<int,string> cityName);
@@ -59,6 +60,28 @@ void Graph::addEdge(int u, int v, int weight, bool undir)
 void Graph::addEdgeReversed(int u, int v, int weight)
 {
 	transpose[u].push_back(make_pair(v, weight)); // for inverse directed graph
+}
+
+// A utility function to delete an edge in an undirected graph.
+void Graph::removeEdge(vector<int> adj1[], int u, int v)
+{
+	// Traversing through the first vector list
+	// and removing the second element from it
+	for (int i = 0; i < adj1[u].size(); i++) {
+		if (adj1[u][i] == v) {
+			adj1[u].erase(adj1[u].begin() + i);
+			break;
+		}
+	}
+
+	// Traversing through the second vector list
+	// and removing the first element from it
+	for (int i = 0; i < adj1[v].size(); i++) {
+		if (adj1[v][i] == u) {
+			adj1[v].erase(adj1[v].begin() + i);
+			break;
+		}
+	}
 }
 
 void Graph::initialize()
@@ -258,7 +281,7 @@ bool Graph::isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, 
 
 	//Step 2: Do DFS traversal starting from first vertex.
 	DFS(adj1, 0, visited);
-	// If DFS traversal doesn’t visit all vertices, then return false.
+	// If DFS traversal doesnâ€™t visit all vertices, then return false.
 	for (int i = 0; i < V; i++) 
 	{
 		if (visited[i] == false)
