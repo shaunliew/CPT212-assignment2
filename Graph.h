@@ -215,7 +215,7 @@ Graph Graph::getTranspose() {
 	Graph gt(V);	
 	for (int v = 0; v < V; v++){
 		for (int j = 0; j < adj[v].size(); j++)
-			// make sure is starting point and ending point reverse
+			//Make sure is starting point and ending point reverse
 			gt.addEdge(adj[v][j].first, v, weight[adj[v][j].first][v]);
 	}
 	return gt;
@@ -224,10 +224,10 @@ Graph Graph::getTranspose() {
 //This function is to perfrom DFS starting from v
 void Graph::DFS(int v, bool* visited)
 {
-	// Mark the current node as visited and print it
+	//Mark the current node as visited and print it
 	visited[v] = true;
 
-	// Recur for all the vertices adjacent to this vertex
+	//Repeat for all the vertices adjacent to this vertex
 	for (auto i = adj[v].begin(); i != adj[v].end(); ++i)
 		if (!visited[i->first])
 			DFS(i->first, visited);
@@ -236,15 +236,15 @@ void Graph::DFS(int v, bool* visited)
 //This function is determining the connectivity and returns true if the graph is strongly connected
 bool Graph::isStronglyConnected()
 {
-	//Step 1: Mark all the vertices as not visited (For first DFS)
+	//Step 1: Mark all the vertices as not visited (It is for first DFS)
 	bool* visited = new bool[V];
 	for (int i = 0; i < V; i++) {
 		visited[i] = false;
 	}
 
-	//Step 2: Do DFS traversal starting from first vertex.
+	//Step 2: Perform DFS traversal starting from the first vertex.
 	DFS(0, visited);
-	// If DFS traversal doesn’t visit all vertices, then return false.
+	//If DFS traversal doesn’t visit all vertices, then return false.
 	for (int i = 0; i < V; i++) 
 	{
 		if (visited[i] == false)
@@ -255,23 +255,21 @@ bool Graph::isStronglyConnected()
 	Graph gt(V); 
 	gt = getTranspose();
 
-	//Step 4: Mark all the vertices as not visited (For second DFS)
+	//Step 4: Mark all the vertices as not visited (It is for second DFS)
 	for (int i = 0; i < V; i++) 
 	{
 		visited[i] = false;
 	}
 
-	//Step 5: Do DFS for reversed graph starting from first vertex.
+	//Step 5: Perform DFS traversal for reversed graph starting from first vertex.
 	//Staring Vertex must be same starting point of first DFS
 	gt.DFS(0, visited);
-	//If all vertices are not visited in second DFS, then
-	//return false
+	//If all vertices are not visited in second DFS, then return false.
 	for (int i = 0; i < V; i++) 
 	{
 		if (visited[i] == false)
 			return false;
 	}
-	
 	return true;
 }
 

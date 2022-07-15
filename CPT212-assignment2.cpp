@@ -101,30 +101,44 @@ int main()
             system("pause");
             break;
         case 2:
-            //check whether the graph is strongly connected
+            //Check whether the graph is strongly connected
             cout << "***************************************************************" << endl;
             cout << "*           Function 1: Connectivity of Graph Detection       *" << endl;
             cout << "***************************************************************" << endl;
             SCCheck = g.isStronglyConnected();
+            cout << "-----------------------AFTER DETECTING-------------------------" << endl;
             if (SCCheck == true)
-                cout << "THE GRAPH IS STRONGLY CONNECTED" << endl;
+                cout << "\nTHE GRAPH IS STRONGLY CONNECTED" << endl;
             else
-                cout << "THE GRAPH IS NOT STRONGLY CONNECTED" << endl << endl;
-
+            {
+                cout << "\nTHE GRAPH IS NOT STRONGLY CONNECTED, RANDOM EDGES ARE GENERATED!" << endl;
+                cout << "---------------------------------------------------------------" << endl << endl;
+            }
+            
+            //Loop the process of adding random edges until the graph is strongly connected
             while (SCCheck == false)
             {
                 g.generateRandEdges(citiesName);
-                cout << "\nModified Graph: " << endl;
+                cout << "***************************************************************" << endl;
+                cout << "*                      MODIFIED GRAPH:                        *" << endl;
                 cout << "***************************************************************" << endl;
                 g.PrintGraph(citiesName);
-                cout << "***************************************************************" << endl;
+                
                 SCCheck = g.isStronglyConnected();
+                cout << "-----------------------DETECTING AGAIN-------------------------" << endl;
                 if (SCCheck == true)
-                    cout << "\n\nTHE GRAPH IS STRONGLY CONNECTED" << endl;
+                    cout << "\nTHE GRAPH IS STRONGLY CONNECTED NOW!" << endl;
                 else
-                    cout << "\n\nTHE GRAPH IS NOT STRONGLY CONNECTED" << endl;
+                {
+                    cout << "\nTHE GRAPH IS STILL NOT STRONGLY CONNECTED!" << endl;
+                    cout << "PLS PROCEED WITH THE ADDING RANDOM EDGES PROCESS!" << endl;
+                }
                 system("pause");
+                system("CLS");
             }
+            cout << "***************************************************************" << endl;
+            cout << "*                  STRONGLY CONNECTED GRAPH:                  *" << endl;
+            cout << "***************************************************************" << endl;
             g.PrintGraph(citiesName);
             system("pause");
             break;
