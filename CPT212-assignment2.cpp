@@ -176,15 +176,13 @@ int main()
             cout << "*     Function 4: Minimum Spanning Tree for selected edges    *" << endl;
             cout << "***************************************************************" << endl << endl;
             undirected_g.clear(5);
-            int choice;
-            choice = 2;
-            if (choice == 1)
+
+
+            int start, end;
+            bool breaker;
+            breaker = false;
+            while (!breaker)
             {
-                int start, end;
-                bool breaker;
-                breaker = false;
-                while (!breaker)
-                {
                     cout << "The current edges that we have:\n";
                     undirected_g.PrintGraph(citiesName);
                     cout << endl;
@@ -201,15 +199,19 @@ int main()
                     if (start == end)
                     {
                         cout << "Start and end city cannot be the same" << endl;
+                        system("pause");
                     }
                     else if (start < 0 || start > 4 || end < 0 || end > 4)
                     {
                         cout << "Invalid city code" << endl;
+                        system("pause");
                     }
                     else
                     {
                         // need to make sure that we add the undirected edges
                         undirected_g.addEdge(start, end, weight[start][end], true);
+                        cout << endl;
+                        cout << "The edge is added successfully\n";
                         cout << "Do you wanna to add more edges? (y/n)\n";
                         cout << "Answer: ";
                         char ch;
@@ -224,16 +226,25 @@ int main()
                         }
                     }
                     system("cls");
-                }
-            }
-            else
+             }
+            cout << endl;
+            cout << endl;
+            cout << "The current edges that we have:\n";
+            undirected_g.PrintGraph(citiesName);
+            if (!undirected_g.isStronglyConnected())
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    undirected_g.generateRandEdgesUndirected(citiesName);
-                }
+                cout << "This is impossible to form Minimum Spanning Tree with current edges\n";
+                cout << "Will add random edges until a Minimum Spanning Tree is formed\n";
+                system("pause");
+                cout << endl;
+                cout << endl;
             }
-
+            while (!undirected_g.isStronglyConnected())
+            {
+                undirected_g.generateRandEdgesUndirected(citiesName);
+            }
+            system("pause");
+            //use these parameter to validate whether it can produce MST or not
             // g.addEdge(1, 0, weight[1][0]);
             // g.addEdge(1, 2, weight[1][2]);
             // g.addEdge(2, 3, weight[2][3]);
