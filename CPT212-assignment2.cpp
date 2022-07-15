@@ -12,6 +12,7 @@ int main()
     //initalize graph
     Graph g(5);
     Graph undirected_g(5);
+    vector<int> adj1[5];
     vector<pair<int, int>> adj[5];
     vector<pair<int, int>> transpose[5];
     int weight[5][5] = 
@@ -245,49 +246,61 @@ int main()
             int v1, v2, wt;
             cout << "***************************************************************" << endl;
             cout << "*                      Add New Edges                          *" << endl;
+            cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
+            cout << "*              1: CA -> Cairo, Egypt                          *" << endl;
+            cout << "*              2: TE -> Tehran, Iran                          *" << endl;
+            cout << "*              3: AU -> Auckland, New Zealand                 *" << endl;
+            cout << "*              4: DH -> Dhaka, Bangladesh                     *" << endl;
             cout << "***************************************************************" << endl  << endl;
-            cout << "0: HE -> Helsinki, Finland \n";
-            cout << "1: CA -> Cairo, Egypt \n";
-            cout << "2: TE -> Tehran, Iran\n";
-            cout << "3: AU -> Auckland, New Zealand \n";
-            cout << "4: DH -> Dhaka, Bangladesh \n";
+
             cout << "Select the first Vertex: ";
             cin >> v1; cin.ignore();
-
             while (v1 > 4 || v1 < 0) {
-                cout << "\n\nPlease select the correct country code!" << endl;
-                cout << "0: HE -> Helsinki, Finland \n";
-                cout << "1: CA -> Cairo, Egypt \n";
-                cout << "2: TE -> Tehran, Iran\n";
-                cout << "3: AU -> Auckland, New Zealand \n";
-                cout << "4: DH -> Dhaka, Bangladesh \n";
+                cout << "\nError! Please select the correct country code: ";
                 cin >> v1; cin.ignore();
             }
 
-            cout << "\n0: HE -> Helsinki, Finland \n";
-            cout << "1: CA -> Cairo, Egypt \n";
-            cout << "2: TE -> Tehran, Iran\n";
-            cout << "3: AU -> Auckland, New Zealand \n";
-            cout << "4: DH -> Dhaka, Bangladesh \n";
-            cout << "Select the second Vertex: ";
+            cout << "\nSelect the second Vertex: ";
             cin >> v2; cin.ignore();
 
             while (v2 > 4 || v2 < 0) {
-                cout << "Please select the correct country code!" << endl;
-                cout << "0: HE -> Helsinki, Finland \n";
-                cout << "1: CA -> Cairo, Egypt \n";
-                cout << "2: TE -> Tehran, Iran\n";
-                cout << "3: AU -> Auckland, New Zealand \n";
-                cout << "4: DH -> Dhaka, Bangladesh \n";
+                cout << "\nError! Please select the correct country code: ";
                 cin >> v2; cin.ignore();
             }
 
             wt = weight[v1][v2];
             g.addEdge(v1, v2, wt);
+
             system("pause");
             break;
         case 8:
             //remove edges from the graph
+            cout << "***************************************************************" << endl;
+            cout << "*                      Add New Edges                          *" << endl;
+            cout << "*              0: HE -> Helsinki, Finland                     *" << endl;
+            cout << "*              1: CA -> Cairo, Egypt                          *" << endl;
+            cout << "*              2: TE -> Tehran, Iran                          *" << endl;
+            cout << "*              3: AU -> Auckland, New Zealand                 *" << endl;
+            cout << "*              4: DH -> Dhaka, Bangladesh                     *" << endl;
+            cout << "***************************************************************" << endl << endl;
+
+            cout << "Select the first Vertex: ";
+            cin >> v1; cin.ignore();
+            while (v1 > 4 || v1 < 0) {
+                cout << "\nError! Please select the correct country code: ";
+                cin >> v1; cin.ignore();
+            }
+
+            cout << "\nSelect the second Vertex: ";
+            cin >> v2; cin.ignore();
+            while (v2 > 4 || v2 < 0) {
+                cout << "\nError! Please select the correct country code: ";
+                cin >> v2; cin.ignore();
+            }
+
+            // Remove the edge by calling the function removeEdge().
+            g.removeEdge(adj1, v1, v2);
+			
             system("pause");
             break;
         case 9:
