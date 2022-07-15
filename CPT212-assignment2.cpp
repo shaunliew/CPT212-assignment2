@@ -86,7 +86,7 @@ int main()
             cout << "***************************************************************" << endl;
             cout << "*           Function 1: Connectivity of Graph Detection       *" << endl;
             cout << "***************************************************************" << endl;
-            SCCheck = g.isStronglyConnected(adj, transpose, 5);
+            SCCheck = g.isStronglyConnected();
             if (SCCheck == true)
                 cout << "THE GRAPH IS STRONGLY CONNECTED" << endl;
             else
@@ -99,16 +99,16 @@ int main()
                 cout << "***************************************************************" << endl;
                 g.PrintGraph(citiesName);
                 cout << "***************************************************************" << endl;
-                SCCheck = g.isStronglyConnected(adj, transpose, 5);
+                SCCheck = g.isStronglyConnected();
                 if (SCCheck == true)
                     cout << "\n\nTHE GRAPH IS STRONGLY CONNECTED" << endl;
                 else
                     cout << "\n\nTHE GRAPH IS NOT STRONGLY CONNECTED" << endl;
                 system("pause");
             }
-            g.minimumEdges(adj, transpose, 5);
             g.PrintGraph(citiesName);
             system("pause");
+            break;
         case 3:
             // detect cycle in the graph
             // Cycle Detection Section
