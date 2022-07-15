@@ -304,7 +304,7 @@ int main()
             //4,0
             cout << endl << endl;
             cout << "***************************************************************" << endl;
-            undirected_g.prim_janik_mst(cityWeight);
+            undirected_g.prim_jarnik_mst(cityWeight);
             cout << "***************************************************************" << endl;
             system("pause");
             break;

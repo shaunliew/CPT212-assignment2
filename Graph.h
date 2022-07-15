@@ -35,7 +35,7 @@ public:
 	Graph getTranspose();
 	bool isStronglyConnected();
 	void DFS(int v, bool* visited);
-	void prim_janik_mst(map<int, string> cityWeight);
+	void prim_jarnik_mst(map<int, string> cityWeight);
 };
 
 
@@ -407,7 +407,7 @@ void Graph::dijkstra(map<int, string> cityName) {
 
 //Function 4: minimum spanning tree using prim-Jarnik algorithm
 //for this function, we need to use undirected graph
-void Graph::prim_janik_mst(map<int, string> cityWeight)
+void Graph::prim_jarnik_mst(map<int, string> cityWeight)
 {
 	cout << "The minimum spanning tree is: " << endl;
 	// Initialize a minimum Heap
