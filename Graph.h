@@ -261,6 +261,7 @@ bool Graph::isStronglyConnected(vector<pair<int, int>> adj1[], vector<pair<int, 
 		if (visited[i] == false)
 			return false;
 	}
+	
 	return true;
 }
 
