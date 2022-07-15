@@ -27,7 +27,6 @@ public:
 	void clear(int V);
 	void PrintGraph(map<int,string> cityName);
 	bool isCyclic(vector<pair<int, int> > adj1[]);
-	bool isAvailablePath(int start, int end);
 	void generateRandEdges(map<int, string> cityName);
 	void generateRandEdgesUndirected(map<int, string> cityName);
 	bool isAvailableEdge(int start, int end);
@@ -202,7 +201,7 @@ void Graph::generateRandEdgesUndirected(map<int, string> cityName)
 	srand(time(0));
 
 	// if both location is same or exist in the original graph, repeat till new unique edge
-	while (rand_start == rand_end || isAvailablePath(rand_start, rand_end)) {
+	while (rand_start == rand_end || isAvailableEdge(rand_start, rand_end)) {
 		rand_start = rand() % V;
 		rand_end = rand() % V;
 	}
